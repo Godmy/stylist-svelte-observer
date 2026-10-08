@@ -57,7 +57,10 @@ export function getTimingTone(totalMs: number): 'fast' | 'medium' | 'slow' {
 }
 
 export function createDomainDiagnosticsState() {
-	const storyModules = import.meta.glob('/src/lib/**/component/**/*.story.svelte') as Record<
+	const storyModules = import.meta.glob([
+		'/src/lib/**/component/**/*.story.svelte',
+		'/modules/*/src/lib/**/component/**/*.story.svelte'
+	]) as Record<
 		string,
 		() => Promise<StoryModule>
 	>;
@@ -75,7 +78,7 @@ export function createDomainDiagnosticsState() {
 
 			return {
 				id: normalizedPath,
-				path: normalizedPath.replace('/src/lib/', ''),
+				path: normalizedPath.split('/src/lib/').at(-1) ?? normalizedPath,
 				title: toWords(family),
 				domain,
 				level,

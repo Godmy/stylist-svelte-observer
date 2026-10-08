@@ -9,10 +9,16 @@
 
 	type StoryModule = { default: unknown };
 
-	const storyModules = import.meta.glob('/src/lib/**/component/**/index.story.svelte') as Record<
+	const physicalStoryModules = import.meta.glob([
+		'/src/lib/**/component/**/index.story.svelte',
+		'/modules/*/src/lib/**/component/**/index.story.svelte'
+	]) as Record<
 		string,
 		() => Promise<StoryModule>
 	>;
+	const storyModules = Object.fromEntries(Object.entries(physicalStoryModules).map(([path, load]) => [
+		`/src/lib/${path.split('/src/lib/').at(-1)}`, load
+	]));
 
 	let {
 		tree,
