@@ -59,7 +59,9 @@ export function getTimingTone(totalMs: number): 'fast' | 'medium' | 'slow' {
 export function createDomainDiagnosticsState() {
 	const storyModules = import.meta.glob([
 		'/src/lib/**/component/**/*.story.svelte',
-		'/modules/*/src/lib/**/component/**/*.story.svelte'
+		'/modules/*/*/component/**/*.story.svelte',
+		'/modules/geo/component/**/*.story.svelte',
+		'/modules/wbd/component/**/*.story.svelte'
 	]) as Record<
 		string,
 		() => Promise<StoryModule>
@@ -67,7 +69,7 @@ export function createDomainDiagnosticsState() {
 
 	const allStories: StoryEntry[] = Object.entries(storyModules)
 		.map(([path, load]) => {
-			const normalizedPath = path.replace(/\\/g, '/');
+			const normalizedPath = path.replace(/\\/g, '/').replace(/^\/modules\/(geo|wbd)\//, '/src/lib/$1/').replace(/^\/modules\/[^/]+\//, '/src/lib/');
 			const parts = normalizedPath.split('/');
 			const libIndex = parts.findIndex((part) => part === 'lib');
 			const componentIndex = parts.findIndex((part) => part === 'component');

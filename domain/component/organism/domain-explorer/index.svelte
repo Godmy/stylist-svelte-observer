@@ -11,13 +11,15 @@
 
 	const physicalStoryModules = import.meta.glob([
 		'/src/lib/**/component/**/index.story.svelte',
-		'/modules/*/src/lib/**/component/**/index.story.svelte'
+		'/modules/*/*/component/**/index.story.svelte',
+		'/modules/geo/component/**/index.story.svelte',
+		'/modules/wbd/component/**/index.story.svelte'
 	]) as Record<
 		string,
 		() => Promise<StoryModule>
 	>;
 	const storyModules = Object.fromEntries(Object.entries(physicalStoryModules).map(([path, load]) => [
-		`/src/lib/${path.split('/src/lib/').at(-1)}`, load
+		path.replace(/^\/modules\/(geo|wbd)\//, '/src/lib/$1/').replace(/^\/modules\/[^/]+\//, '/src/lib/'), load
 	]));
 
 	let {
