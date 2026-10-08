@@ -20,16 +20,16 @@
 	];
 
 	const files = [
-		{ name: 'index.svelte', path: '/src/lib/wbd/component/template/invite-page/index.svelte' },
-		{ name: 'index.ts', path: '/src/lib/wbd/component/template/invite-page/index.ts' }
+		{ name: 'index.svelte', path: '/src/lib/dialog/component/organism/dialog/index.svelte' },
+		{ name: 'index.ts', path: '/src/lib/dialog/component/organism/dialog/index.ts' }
 	];
 	const markdownFile = {
 		name: 'README.md',
-		path: '/src/lib/wbd/component/template/invite-page/README.md'
+		path: '/src/lib/dialog/component/organism/dialog/README.md'
 	};
 	const storyFile = {
 		name: 'index.story.svelte',
-		path: '/src/lib/wbd/component/template/invite-page/index.story.svelte'
+		path: '/src/lib/dialog/component/organism/dialog/index.story.svelte'
 	};
 
 	let activeFilePath = $state(files[0].path);

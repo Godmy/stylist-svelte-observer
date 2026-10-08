@@ -60,16 +60,15 @@ export function createDomainDiagnosticsState() {
 	const storyModules = import.meta.glob([
 		'/src/lib/**/component/**/*.story.svelte',
 		'/modules/*/*/component/**/*.story.svelte',
-		'/modules/geo/component/**/*.story.svelte',
-		'/modules/wbd/component/**/*.story.svelte'
-	]) as Record<
-		string,
-		() => Promise<StoryModule>
-	>;
+		'/modules/*/component/**/*.story.svelte'
+	]) as Record<string, () => Promise<StoryModule>>;
 
 	const allStories: StoryEntry[] = Object.entries(storyModules)
 		.map(([path, load]) => {
-			const normalizedPath = path.replace(/\\/g, '/').replace(/^\/modules\/(geo|wbd)\//, '/src/lib/$1/').replace(/^\/modules\/[^/]+\//, '/src/lib/');
+			const normalizedPath = path
+				.replace(/\\/g, '/')
+				.replace(/^\/modules\/([^/]+)\/component\//, '/src/lib/$1/component/')
+				.replace(/^\/modules\/[^/]+\//, '/src/lib/');
 			const parts = normalizedPath.split('/');
 			const libIndex = parts.findIndex((part) => part === 'lib');
 			const componentIndex = parts.findIndex((part) => part === 'component');

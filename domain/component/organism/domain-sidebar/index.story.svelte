@@ -8,7 +8,14 @@
 		files: { path: string }[];
 	};
 
-	const entitiesByDomain: Record<'layout' | 'theme', StoryEntity[]> = {
+	const entitiesByDomain: Record<'layout' | 'theme' | 'button', StoryEntity[]> = {
+		button: [
+			{
+				name: 'button',
+				path: '/src/lib/button/component/atom/button',
+				files: [{ path: 'index.svelte' }, { path: 'index.story.svelte' }]
+			}
+		],
 		layout: [
 			{
 				name: 'clickable',
@@ -35,19 +42,19 @@
 		]
 	};
 
-	let activeDomain = $state<'layout' | 'theme'>('layout');
+	let activeDomain = $state<'layout' | 'theme' | 'button'>('layout');
 	let activeCluster = $state('component');
 	let activeJoint = $state('atom');
 	let activeEntityPath = $state<string>(entitiesByDomain.layout[0].path);
 
 	const availableJoints = ['atom', 'molecule', 'organism'] as const;
-	const availableDomains = ['layout', 'theme'] as const;
+	const availableDomains = ['layout', 'theme', 'button'] as const;
 </script>
 
 <Story
 	component={DomainSidebar}
 	title="DomainSidebar"
-	description="Full taxonomy rail combining domain, cluster, joint, and entity lists."
+	description="Module-aware taxonomy rail: design-system and interaction filter the domain column, followed by clusters, joints and entities."
 >
 	{#snippet children()}
 		<div class="_c1">
@@ -60,7 +67,7 @@
 				entities={entitiesByDomain[activeDomain]}
 				{activeEntityPath}
 				onDomainSelect={(name) => {
-					activeDomain = name === 'theme' ? 'theme' : 'layout';
+					activeDomain = name === 'button' ? 'button' : name === 'theme' ? 'theme' : 'layout';
 					activeEntityPath = entitiesByDomain[activeDomain][0].path;
 				}}
 				onClusterSelect={(name) => {

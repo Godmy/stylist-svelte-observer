@@ -12,15 +12,16 @@
 	const physicalStoryModules = import.meta.glob([
 		'/src/lib/**/component/**/index.story.svelte',
 		'/modules/*/*/component/**/index.story.svelte',
-		'/modules/geo/component/**/index.story.svelte',
-		'/modules/wbd/component/**/index.story.svelte'
-	]) as Record<
-		string,
-		() => Promise<StoryModule>
-	>;
-	const storyModules = Object.fromEntries(Object.entries(physicalStoryModules).map(([path, load]) => [
-		path.replace(/^\/modules\/(geo|wbd)\//, '/src/lib/$1/').replace(/^\/modules\/[^/]+\//, '/src/lib/'), load
-	]));
+		'/modules/*/component/**/index.story.svelte'
+	]) as Record<string, () => Promise<StoryModule>>;
+	const storyModules = Object.fromEntries(
+		Object.entries(physicalStoryModules).map(([path, load]) => [
+			path
+				.replace(/^\/modules\/([^/]+)\/component\//, '/src/lib/$1/component/')
+				.replace(/^\/modules\/[^/]+\//, '/src/lib/'),
+			load
+		])
+	);
 
 	let {
 		tree,
@@ -29,7 +30,8 @@
 		initialJoint,
 		initialPreviewMode,
 		onSelectionChange,
-		storyDevice = $bindable('fullscreen'),
+		storyDevice = $bindable('desktop'),
+		fullscreen = $bindable(false),
 		deviceViewportVisible = $bindable(false),
 		class: className = ''
 	}: RecipeDomainExplorer = $props();
@@ -57,69 +59,72 @@
 	$effect(() => {
 		deviceViewportVisible = s.previewMode === 'story' && !!s.storyPreviewComponent;
 	});
-
 </script>
 
-<main class="c-domain-explorer {className}">
-	<DomainSidebar
-		activeDomain={s.activeDomain}
-		activeCluster={s.activeCluster}
-		activeJoint={s.activeJoint}
-		availableDomains={s.availableDomainNames}
-		availableJoints={s.availableJointNames}
-		entities={s.entities}
-		activeEntityPath={s.activeEntityPath}
-		onDomainSelect={s.handleDomainSelect}
-		onClusterSelect={s.handleClusterSelect}
-		onJointSelect={s.handleJointSelect}
-		onEntitySelect={s.handleEntitySelect}
-	/>
-
+<main class="c-domain-explorer {className}" class:fullscreen>
+	<div class="explorer-rail" inert={fullscreen}>
+		<DomainSidebar
+			activeDomain={s.activeDomain}
+			activeCluster={s.activeCluster}
+			activeJoint={s.activeJoint}
+			availableDomains={s.availableDomainNames}
+			availableJoints={s.availableJointNames}
+			entities={s.entities}
+			activeEntityPath={s.activeEntityPath}
+			onDomainSelect={s.handleDomainSelect}
+			onClusterSelect={s.handleClusterSelect}
+			onJointSelect={s.handleJointSelect}
+			onEntitySelect={s.handleEntitySelect}
+		/>
+	</div>
 	<section class="content-panel" aria-label="Content viewer">
 		<div class="viewer">
-			<div class="taxonomy-row">
-				<TaxonomyBreadcrumbs
-					domain={s.activeDomain}
-					cluster={s.activeCluster}
-					joint={s.activeJoint}
-					family={s.activeFamilyName}
-					file={s.breadcrumbFile}
-				/>
-				<DomainSearch
-					entries={s.searchEntries}
-					currentPath={[
-						s.activeDomain,
-						s.activeCluster,
-						s.activeJoint,
-						s.activeFamilyName,
-						s.breadcrumbFile
-					]
-						.filter(Boolean)
-						.join('\\')}
-					onSelect={s.selectSearchEntry}
-				/>
+			<div class="viewer-chrome" inert={fullscreen}>
+				<div class="taxonomy-row">
+					<TaxonomyBreadcrumbs
+						domain={s.activeDomain}
+						cluster={s.activeCluster}
+						joint={s.activeJoint}
+						family={s.activeFamilyName}
+						file={s.breadcrumbFile}
+					/>
+					<DomainSearch
+						entries={s.searchEntries}
+						currentPath={[
+							s.activeDomain,
+							s.activeCluster,
+							s.activeJoint,
+							s.activeFamilyName,
+							s.breadcrumbFile
+						]
+							.filter(Boolean)
+							.join('\\')}
+						onSelect={s.selectSearchEntry}
+					/>
+				</div>
+
+				{#if s.activeEntity}
+					<JointTabButtons
+						files={s.activeEntity.files}
+						markdownFile={s.markdownFile}
+						storyFile={s.storyFile}
+						selectedEntityName={s.activeFamily}
+						activeFilePath={s.activeFilePath}
+						previewMode={s.previewMode}
+						previewKind={s.previewKind}
+						activeJoint={s.activeJoint}
+						hasDependencyPreview={s.hasDependencyPreview}
+						onFileSelect={s.handleFileSelect}
+						onMarkdownSelect={s.handleMarkdownSelect}
+						onStorySelect={s.handleStorySelect}
+						onJsonTreeSelect={s.handleJsonTreeSelect}
+						onDependencySelect={() => s.handleDependencySelect()}
+					/>
+				{/if}
 			</div>
-
-			{#if s.activeEntity}
-				<JointTabButtons
-					files={s.activeEntity.files}
-					markdownFile={s.markdownFile}
-					storyFile={s.storyFile}
-					selectedEntityName={s.activeFamily}
-					activeFilePath={s.activeFilePath}
-					previewMode={s.previewMode}
-					previewKind={s.previewKind}
-					activeJoint={s.activeJoint}
-					hasDependencyPreview={s.hasDependencyPreview}
-					onFileSelect={s.handleFileSelect}
-					onMarkdownSelect={s.handleMarkdownSelect}
-					onStorySelect={s.handleStorySelect}
-					onJsonTreeSelect={s.handleJsonTreeSelect}
-					onDependencySelect={() => s.handleDependencySelect()}
-				/>
-			{/if}
-
 			<DomainFilePreview
+				{fullscreen}
+				storyPath={s.storyFile?.path}
 				previewMode={s.previewMode}
 				fileContent={s.fileContent}
 				fileLoading={s.fileLoading}
@@ -144,10 +149,44 @@
 <style>
 	.c-domain-explorer {
 		display: grid;
-		grid-template-columns: 249px minmax(0, 1fr);
+		grid-template-columns: 281px minmax(0, 1fr);
+		transition: grid-template-columns 180ms ease;
 		min-height: 100vh;
 		background: var(--color-background-primary);
 		color: var(--color-text-primary);
+	}
+
+	.explorer-rail {
+		min-width: 0;
+		overflow: hidden;
+		transition: transform 180ms ease;
+	}
+	.explorer-rail :global(.c-domain-sidebar) {
+		width: 281px;
+		min-height: 100%;
+	}
+	.viewer-chrome {
+		min-width: 0;
+		overflow: hidden;
+	}
+	.fullscreen {
+		grid-template-columns: 0 minmax(0, 1fr);
+	}
+	.fullscreen .explorer-rail {
+		transform: translateX(-100%);
+		visibility: hidden;
+	}
+	.fullscreen .viewer-chrome {
+		display: none;
+	}
+	.fullscreen .viewer {
+		grid-template-rows: 1fr;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.c-domain-explorer,
+		.explorer-rail {
+			transition: none;
+		}
 	}
 
 	.content-panel {
@@ -159,7 +198,7 @@
 
 	.viewer {
 		display: grid;
-		grid-template-rows: auto auto 1fr;
+		grid-template-rows: auto 1fr;
 		min-height: 0;
 		overflow-x: clip;
 		overflow-y: visible;
@@ -187,6 +226,12 @@
 	}
 
 	@media (max-width: 840px) {
+		.fullscreen .explorer-rail {
+			display: none;
+		}
+		.explorer-rail :global(.c-domain-sidebar) {
+			width: 100%;
+		}
 		.c-domain-explorer {
 			grid-template-columns: 1fr;
 		}

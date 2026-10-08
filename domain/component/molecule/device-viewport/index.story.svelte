@@ -4,17 +4,23 @@
 	import type { DeviceFrameViewport } from '$stylist/domain/type/alias/device-frame-viewport';
 
 	let value = $state<DeviceFrameViewport>('desktop');
+	let fullscreen = $state(false);
 </script>
 
 <Story
 	component={DeviceViewport}
 	title="DeviceViewport"
-	description="Mobile/tablet/desktop/fullscreen viewport switcher shown next to DomainMenu during playground preview."
+	description="Exact mobile (375px), tablet (768px), desktop (1440px) presets with an independent fullscreen toggle."
 >
 	{#snippet children()}
 		<div class="_c1">
-			<DeviceViewport {value} onChange={(next) => (value = next)} />
-			<p class="_c2">Selected: {value}</p>
+			<DeviceViewport
+				{value}
+				{fullscreen}
+				onChange={(next) => (value = next)}
+				onFullscreenChange={(next) => (fullscreen = next)}
+			/>
+			<p class="_c2">Selected: {value} · Fullscreen: {fullscreen}</p>
 		</div>
 	{/snippet}
 </Story>

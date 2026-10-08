@@ -6,13 +6,25 @@
 
 ## Screen Structure
 
+The taxonomy starts with **module → domain → cluster → joint → family**. Module ownership comes from the app's `modules.json`, not from a duplicated domain map. The sidebar shows only modules/domains present in the supplied tree; selecting a module selects its first available domain. Search remains global and selecting a result updates the active module automatically. Module SVGs live in `data/icon/module/` and are loaded directly, without depending on generated SVG barrels.
+
+`device-viewport` has three independent device presets: **mobile · 375px**, **tablet · 768px**, **desktop · 1440px**. Fullscreen is a separate toggle and preserves the preset. It hides the taxonomy rail, breadcrumbs/search/file tabs, and Story metadata/controls/variants; the persistent menu and viewport buttons stay available. Escape exits fullscreen, including when focus is inside the preview frame.
+
+The app provides `/preview?story=<logical story path>` for isolated previews. `domain-file-preview` gives its iframe an exact width, so CSS media queries, viewport units, fixed positioning and `window.innerWidth` use the selected device viewport. Wider previews scroll horizontally instead of silently shrinking. Width/fullscreen updates use same-origin messages without remounting the story, preserving control values. The iframe also mirrors the applied theme. Stories used outside this app retain their inline preview fallback and optional viewport context.
+
+New standalone module roots are discovered with `/modules/*/component/**/index.story.svelte`, while grouped domain roots use `/modules/*/*/component/**/index.story.svelte`. Both map to logical `/src/lib/<domain>/…` paths in explorer, preview and diagnostics.
+
+`molecule/workspace-hints` supplies immediate hover and keyboard-focus hints throughout the workspace. It converts native `title` attributes into styled hints and also consumes `data-hint` and button `aria-label` text. Hints stay within the viewport, render above menu layers, and close on click, Escape, scrolling or blur. File tabs provide descriptive hints and source paths. The domain rail has a full-height divider matching the module rail.
+
 ```text
 component/page/domain-playground          - root shell and screen switcher
 ├─ component/page/domain-landing          - landing page for the domain workspace
 ├─ molecule/domain-menu                   - persistent menu for landing, components, diagnostics and settings
 ├─ molecule/device-viewport               - story viewport control for component preview
+├─ molecule/workspace-hints               - immediate hover/focus hints for workspace controls
 ├─ organism/domain-explorer               - component browser for domains, clusters, joints and families
 │  ├─ organism/domain-sidebar             - taxonomy navigation
+│  │  ├─ module rail                     - modules.json selector with data/icon/module SVGs
 │  │  ├─ molecule/domain-toolbar          - domain selector
 │  │  ├─ molecule/cluster-toolbar         - cluster selector
 │  │  ├─ molecule/joint-toolbar           - joint selector

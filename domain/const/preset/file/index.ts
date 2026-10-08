@@ -62,5 +62,22 @@ export const PRESET_FILE = {
 		type: 'shader',
 		files: ['concentric-circles.frag', 'hyperspace.frag', 'turtle-dissolve.frag']
 	},
-	FULL_SCREEN_VERTEX_SHADER: { type: 'shader', files: ['full-screen.vert'] }
+	FULL_SCREEN_VERTEX_SHADER: { type: 'shader', files: ['full-screen.vert'] },
+	MODULE_ICONS: {
+		type: 'image',
+		files: [
+			'architecture.svg',
+			'business.svg',
+			'default.svg',
+			'design-system.svg',
+			'farm.svg',
+			'geo.svg',
+			'information.svg',
+			'interaction.svg',
+			'observer.svg',
+			'spanish.svg',
+			'travel.svg',
+			'wbd.svg'
+		]
+	}
 } as const satisfies Record<string, { type: string; files: readonly TypeFile[] }>;

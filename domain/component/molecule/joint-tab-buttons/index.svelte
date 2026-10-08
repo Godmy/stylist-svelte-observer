@@ -81,7 +81,7 @@
 			aria-label={hasResolvedIcon
 				? `Resolved icon ${resolvedIconName}`
 				: `Icon not found for ${selectedEntityName || 'entity'}`}
-			>
+		>
 			<Icon name={resolvedIconName} size="sm" />
 		</div>
 	</div>
@@ -92,6 +92,7 @@
 				type="button"
 				class="tab tab--mode"
 				class:active={previewMode === 'markdown'}
+				data-hint="Read documentation"
 				onclick={() => onMarkdownSelect?.()}
 			>
 				index.md
@@ -103,6 +104,7 @@
 				type="button"
 				class="tab tab--mode"
 				class:active={previewMode === 'story'}
+				data-hint="Open interactive playground"
 				onclick={() => onStorySelect?.()}
 			>
 				playground
@@ -114,6 +116,7 @@
 				type="button"
 				class="tab tab--mode"
 				class:active={previewMode === 'json-tree'}
+				data-hint="Explore JSON tree"
 				onclick={() => onJsonTreeSelect?.()}
 			>
 				tree
@@ -125,6 +128,7 @@
 				type="button"
 				class="tab tab--mode"
 				class:active={previewMode === 'di'}
+				data-hint="Inspect component dependencies"
 				onclick={() => onDependencySelect?.()}
 			>
 				DI
@@ -136,6 +140,7 @@
 				type="button"
 				class="tab"
 				class:active={previewMode === 'file' && activeFilePath === file.path}
+				data-hint={file.path}
 				onclick={() => onFileSelect?.(file.path)}
 			>
 				{file.name}

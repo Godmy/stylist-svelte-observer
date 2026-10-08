@@ -4,7 +4,7 @@
 	import DomainEntity from './index.svelte';
 
 	const controls: SlotStory[] = [
-		{ name: 'name', type: 'text', defaultValue: 'price-history' },
+		{ name: 'name', type: 'text', defaultValue: 'filter-bar' },
 		{ name: 'fileCount', type: 'number', defaultValue: 3 },
 		{ name: 'active', type: 'boolean', defaultValue: false }
 	];
@@ -22,7 +22,7 @@
 		<div class="_c1">
 			<DomainEntity
 				name={values.name as string}
-				path={`/src/lib/commerce/component/molecule/${values.name as string}`}
+				path={`/src/lib/table/component/molecule/${values.name as string}`}
 				fileCount={Number(values.fileCount)}
 				active={Boolean(values.active)}
 				onSelect={(path) => {

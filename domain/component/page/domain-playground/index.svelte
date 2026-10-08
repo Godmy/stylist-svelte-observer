@@ -2,6 +2,7 @@
 	import { DOMAIN_SCREEN } from '$stylist/domain/const/object/domain-screen';
 	import DomainMenu from '$stylist/domain/component/molecule/domain-menu/index.svelte';
 	import DeviceViewport from '$stylist/domain/component/molecule/device-viewport/index.svelte';
+	import WorkspaceHints from '$stylist/domain/component/molecule/workspace-hints/index.svelte';
 	import createDomainPlaygroundState from './state.svelte';
 	import DomainLanding from '$stylist/domain/component/page/domain-landing/index.svelte';
 	import type { DeviceFrameViewport } from '$stylist/domain/type/alias/device-frame-viewport';
@@ -19,7 +20,8 @@
 	}: RecipeDomainPlayground = $props();
 
 	const screenState = createDomainPlaygroundState(initialScreen);
-	let storyDevice = $state<DeviceFrameViewport>('fullscreen');
+	let storyDevice = $state<DeviceFrameViewport>('desktop');
+	let fullscreen = $state(false);
 	let deviceViewportVisible = $state(false);
 	const storyModuleCount = $derived(countDomainStories(tree));
 
@@ -31,7 +33,16 @@
 		import('$stylist/domain/component/organism/domain-settings/index.svelte');
 </script>
 
-<div class="c-domain-playground {className}">
+<svelte:window
+	onkeydown={(event) => {
+		if (event.key === 'Escape') fullscreen = false;
+	}}
+/>
+
+<div
+	class="c-domain-playground {className}"
+	class:fullscreen={fullscreen && screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
+>
 	{#if screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
 		{#await loadDomainExplorer() then module}
 			{@const DomainExplorer = module.default}
@@ -42,6 +53,7 @@
 				{initialJoint}
 				{initialPreviewMode}
 				bind:storyDevice
+				bind:fullscreen
 				bind:deviceViewportVisible
 			/>
 		{/await}
@@ -62,7 +74,12 @@
 
 	<div class="menu-shell">
 		{#if screenState.currentScreen === DOMAIN_SCREEN.DOMAIN && deviceViewportVisible}
-			<DeviceViewport value={storyDevice} onChange={(next) => (storyDevice = next)} />
+			<DeviceViewport
+				value={storyDevice}
+				{fullscreen}
+				onChange={(next) => (storyDevice = next)}
+				onFullscreenChange={(next) => (fullscreen = next)}
+			/>
 		{/if}
 
 		<DomainMenu
@@ -79,6 +96,8 @@
 	</div>
 </div>
 
+<WorkspaceHints />
+
 {#if screenState.isSettingsOpen}
 	{#await loadDomainSettings() then module}
 		{@const DomainSettings = module.default}
@@ -90,6 +109,10 @@
 	.c-domain-playground {
 		position: relative;
 		min-height: 100vh;
+	}
+
+	.c-domain-playground.fullscreen {
+		padding-top: 0;
 	}
 
 	.menu-shell {

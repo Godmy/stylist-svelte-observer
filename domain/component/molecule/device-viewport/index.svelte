@@ -3,18 +3,24 @@
 	import type { DeviceFrameViewport } from '$stylist/domain/type/alias/device-frame-viewport';
 	import type { RecipeDeviceViewport } from '$stylist/domain/interface/recipe/device-viewport';
 
-	let { value = 'desktop', onChange, class: className = '' }: RecipeDeviceViewport = $props();
+	let {
+		value = 'desktop',
+		fullscreen = false,
+		onFullscreenChange,
+		onChange,
+		class: className = ''
+	}: RecipeDeviceViewport = $props();
 
 	const LABEL: Record<DeviceFrameViewport, string> = {
-		mobile: 'Mobile',
-		tablet: 'Tablet',
-		desktop: 'Desktop',
+		mobile: 'Mobile · 375px',
+		tablet: 'Tablet · 768px',
+		desktop: 'Desktop · 1440px',
 		fullscreen: 'Fullscreen'
 	};
 </script>
 
 <nav class="c-device-viewport {className}" aria-label="Preview viewport">
-	{#each DEVICE_FRAME_VIEWPORT as device (device)}
+	{#each DEVICE_FRAME_VIEWPORT.filter((device) => device !== 'fullscreen') as device (device)}
 		<button
 			type="button"
 			class:active={value === device}
@@ -90,6 +96,30 @@
 			{/if}
 		</button>
 	{/each}
+	<span class="viewport-label">{LABEL[value]}</span>
+	<button
+		type="button"
+		class="viewport-button fullscreen-button"
+		class:active={fullscreen}
+		aria-pressed={fullscreen}
+		aria-label={fullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+		title={fullscreen ? 'Exit fullscreen (Esc)' : 'Enter fullscreen'}
+		onclick={() => onFullscreenChange?.(!fullscreen)}
+	>
+		<svg
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			aria-hidden="true"
+		>
+			{#if fullscreen}<path d="M3 8h5V3m8 0v5h5M3 16h5v5m8 0v-5h5" />{:else}<path
+					d="M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5"
+				/>{/if}
+		</svg>
+	</button>
 </nav>
 
 <style>
@@ -109,6 +139,17 @@
 			0 16px 38px rgba(15, 23, 42, 0.1),
 			inset 0 1px 0 rgba(255, 255, 255, 0.55);
 		backdrop-filter: blur(14px);
+	}
+
+	.viewport-label {
+		font-size: 12px;
+		white-space: nowrap;
+		color: var(--color-text-secondary);
+	}
+	.fullscreen-button {
+		margin-left: 0.65rem;
+		outline: 1px solid var(--color-border-primary);
+		outline-offset: 4px;
 	}
 
 	.viewport-button {

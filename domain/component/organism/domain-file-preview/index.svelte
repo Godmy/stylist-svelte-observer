@@ -21,11 +21,49 @@
 		dependencyError = '',
 		onDependencySelect,
 		previewKind = 'text',
-		storyDevice = $bindable('fullscreen'),
+		storyDevice = $bindable('desktop'),
+		fullscreen = false,
+		storyPath = '',
 		class: className = ''
 	}: RecipeDomainFilePreview = $props();
 
-	ManagerStoryViewportContext.set(() => storyDevice);
+	ManagerStoryViewportContext.set(
+		() => storyDevice,
+		() => fullscreen
+	);
+	let frame = $state<HTMLIFrameElement>();
+	const viewportWidth = $derived(
+		{ mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
+	);
+	const frameUrl = $derived(
+		`/preview?story=${encodeURIComponent(storyPath.replace(/^\/?src\/lib\//, '').replace(/^\//, ''))}`
+	);
+	function syncFrame() {
+		frame?.contentWindow?.postMessage(
+			{ type: 'stylist:viewport', device: storyDevice, fullscreen },
+			window.location.origin
+		);
+	}
+	function receiveFrame(event: MessageEvent) {
+		if (event.origin !== window.location.origin || event.source !== frame?.contentWindow) return;
+		if (event.data?.type === 'stylist:preview-ready') syncFrame();
+		if (event.data?.type === 'stylist:exit-fullscreen')
+			window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+	}
+	$effect(() => {
+		storyDevice;
+		fullscreen;
+		syncFrame();
+	});
+	$effect(() => {
+		if (!frame) return;
+		const observer = new MutationObserver(syncFrame);
+		observer.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['style', 'class', 'data-theme']
+		});
+		return () => observer.disconnect();
+	});
 
 	const renderedContent = $derived.by(() => {
 		if (previewKind !== 'json') return fileContent;
@@ -37,8 +75,11 @@
 	});
 </script>
 
+<svelte:window onmessage={receiveFrame} />
+
 <div
 	class="c-domain-file-preview {className}"
+	class:fullscreen
 	class:c-domain-file-preview--story={previewMode === 'story'}
 >
 	{#if previewMode === 'story' && storyPreviewLoading}
@@ -48,7 +89,19 @@
 	{:else if previewMode === 'story' && storyPreviewComponent}
 		{@const StoryPreviewComponent = storyPreviewComponent}
 		<div class="story-preview-shell">
-			<StoryPreviewComponent />
+			{#if storyPath}
+				<div class="story-frame-scroll">
+					<iframe
+						bind:this={frame}
+						src={frameUrl}
+						title="Component story preview"
+						onload={syncFrame}
+						style:width={viewportWidth ? `${viewportWidth}px` : '100%'}
+					></iframe>
+				</div>
+			{:else}
+				<StoryPreviewComponent />
+			{/if}
 		</div>
 	{:else if fileLoading}
 		<p class="empty-state">Loading preview...</p>
@@ -148,6 +201,25 @@
 		position: relative;
 		isolation: isolate;
 		overflow: visible;
+	}
+
+	.story-frame-scroll {
+		width: 100%;
+		overflow: auto;
+	}
+	.story-frame-scroll iframe {
+		display: block;
+		flex-shrink: 0;
+		border: 0;
+		margin-inline: auto;
+		height: max(700px, calc(100dvh - 150px));
+		background: var(--color-background-primary);
+	}
+	.fullscreen .story-preview-shell {
+		padding: 0;
+	}
+	.fullscreen .story-frame-scroll iframe {
+		height: 100dvh;
 	}
 
 	.svg-art {

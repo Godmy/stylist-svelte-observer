@@ -19,7 +19,8 @@ export {
 	JsonTreeViewer,
 	StylistHeroIntro,
 	StylistMission,
-	TaxonomyBreadcrumbs
+	TaxonomyBreadcrumbs,
+	WorkspaceHints
 } from './molecule';
 export {
 	DeviceFrame,

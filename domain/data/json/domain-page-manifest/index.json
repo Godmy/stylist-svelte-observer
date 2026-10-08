@@ -1136,7 +1136,8 @@
           "json-tree-viewer": "INDEXED_STORY_COMPONENT",
           "stylist-hero-intro": "INDEXED_COMPONENT",
           "stylist-mission": "INDEXED_COMPONENT",
-          "taxonomy-breadcrumbs": "INDEXED_STORY_COMPONENT"
+          "taxonomy-breadcrumbs": "INDEXED_STORY_COMPONENT",
+          "workspace-hints": "INDEXED_COMPONENT"
         },
         "organism": {
           "device-frame": "INDEXED_REACTIVE_STORY_COMPONENT",
@@ -1178,6 +1179,11 @@
           "domain-regime": "INDEXED_CONST",
           "joint-toolbar-items": "INDEXED_CONST",
           "stylist-graph-workspace-seed": "INDEXED_CONST"
+        }
+      },
+      "data": {
+        "icon": {
+          "module": "MODULE_ICONS"
         }
       },
       "function": {
@@ -3201,6 +3207,7 @@
           "forms-organism": "INDEX_SVG",
           "frag": "INDEX_SVG",
           "friend-list": "INDEX_SVG",
+          "fruit": "INDEX_SVG",
           "function": "INDEX_SVG",
           "gap": "INDEX_SVG",
           "general-toolbar": "INDEX_SVG",
@@ -3360,6 +3367,7 @@
           "panels": "INDEX_SVG",
           "paperclip": "INDEX_SVG",
           "paragraph": "INDEX_SVG",
+          "passport": "INDEX_SVG",
           "paste": "INDEX_SVG",
           "payment": "INDEX_SVG",
           "pending": "INDEX_SVG",
@@ -3491,6 +3499,7 @@
           "store-locator": "INDEX_SVG",
           "story": "INDEX_SVG",
           "struct": "INDEX_SVG",
+          "stupa": "INDEX_SVG",
           "style": "INDEX_SVG",
           "styles": "INDEX_SVG",
           "stylist": "INDEX_SVG",

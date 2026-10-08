@@ -13,3 +13,4 @@ export { JsonTreeViewer } from './json-tree-viewer/index';
 export { StylistHeroIntro } from './stylist-hero-intro/index';
 export { StylistMission } from './stylist-mission/index';
 export { TaxonomyBreadcrumbs } from './taxonomy-breadcrumbs/index';
+export { WorkspaceHints } from './workspace-hints/index';

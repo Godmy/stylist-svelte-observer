@@ -32,7 +32,8 @@ export {
 	StylistHero,
 	StylistHeroIntro,
 	StylistMission,
-	TaxonomyBreadcrumbs
+	TaxonomyBreadcrumbs,
+	WorkspaceHints
 } from './component';
 export {
 	ARRAY_FILE,

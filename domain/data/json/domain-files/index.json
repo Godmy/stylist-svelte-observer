@@ -1103,10 +1103,10 @@
     },
     {
       "name": "domain",
-      "fileCount": 208,
+      "fileCount": 222,
       "components": {
         "atoms": 4,
-        "molecules": 14,
+        "molecules": 15,
         "organisms": 13,
         "templates": 0,
         "pages": 2
@@ -1114,7 +1114,7 @@
       "clusters": [
         {
           "name": "component",
-          "fileCount": 106,
+          "fileCount": 108,
           "joints": [
             {
               "name": "atom",
@@ -1123,8 +1123,8 @@
             },
             {
               "name": "molecule",
-              "entityCount": 14,
-              "fileCount": 40
+              "entityCount": 15,
+              "fileCount": 42
             },
             {
               "name": "organism",
@@ -1171,8 +1171,13 @@
         },
         {
           "name": "data",
-          "fileCount": 1,
+          "fileCount": 13,
           "joints": [
+            {
+              "name": "icon",
+              "entityCount": 1,
+              "fileCount": 12
+            },
             {
               "name": "md",
               "entityCount": 0,
@@ -1506,7 +1511,7 @@
     },
     {
       "name": "geo",
-      "fileCount": 79,
+      "fileCount": 78,
       "components": {
         "atoms": 0,
         "molecules": 0,
@@ -1938,7 +1943,7 @@
     },
     {
       "name": "layout",
-      "fileCount": 249,
+      "fileCount": 251,
       "components": {
         "atoms": 17,
         "molecules": 12,
@@ -3047,7 +3052,7 @@
     },
     {
       "name": "server",
-      "fileCount": 20,
+      "fileCount": 19,
       "components": {
         "atoms": 0,
         "molecules": 0,
@@ -3187,7 +3192,7 @@
     },
     {
       "name": "spanish",
-      "fileCount": 50,
+      "fileCount": 51,
       "components": {
         "atoms": 4,
         "molecules": 4,
@@ -3242,7 +3247,7 @@
     },
     {
       "name": "svg",
-      "fileCount": 749,
+      "fileCount": 751,
       "components": {
         "atoms": 11,
         "molecules": 0,
@@ -3275,7 +3280,7 @@
         },
         {
           "name": "data",
-          "fileCount": 678,
+          "fileCount": 681,
           "joints": [
             {
               "name": "flag",
@@ -3284,8 +3289,8 @@
             },
             {
               "name": "icon",
-              "entityCount": 668,
-              "fileCount": 668
+              "entityCount": 671,
+              "fileCount": 671
             }
           ]
         },
@@ -3439,7 +3444,7 @@
     },
     {
       "name": "theme",
-      "fileCount": 208,
+      "fileCount": 207,
       "components": {
         "atoms": 4,
         "molecules": 5,
@@ -3920,7 +3925,7 @@
     },
     {
       "name": "typography",
-      "fileCount": 70,
+      "fileCount": 72,
       "components": {
         "atoms": 8,
         "molecules": 3,
@@ -4104,7 +4109,7 @@
     },
     {
       "name": "wbd",
-      "fileCount": 479,
+      "fileCount": 478,
       "components": {
         "atoms": 3,
         "molecules": 20,
@@ -4368,9 +4373,9 @@
   ],
   "totals": {
     "domains": 51,
-    "files": 6123,
+    "files": 6140,
     "atoms": 216,
-    "molecules": 271,
+    "molecules": 272,
     "organisms": 278,
     "templates": 20,
     "pages": 4
