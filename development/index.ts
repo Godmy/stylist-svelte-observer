@@ -43,6 +43,7 @@ export {
 	TOKEN_CODE_VIEW,
 	TOKEN_SOFTWARE_BADGE
 } from './const';
+export { highlightCode } from './function';
 export type {
 	ContentType,
 	DebugConsoleLogLevel,

@@ -38,6 +38,7 @@ export const PRESET_FILE = {
 	INDEXED_INTERFACE: { type: 'interface', files: ['index.ts'] },
 	INDEXED_CONST: { type: 'const', files: ['index.ts'] },
 	INDEXED_FUNCTION: { type: 'function', files: ['index.ts'] },
+	FUNCTION_TEST: { type: 'function', files: ['index.test.ts'] },
 	INDEX_SVG: { type: 'svg', files: ['index.svg'] },
 	REACTIVE_BARREL: { type: 'barrel', files: ['index.svelte.ts', 'index.ts'] },
 	TESTED_INDEXED_STORY_COMPONENT: {

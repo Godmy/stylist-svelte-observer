@@ -5,7 +5,7 @@
 
 	const controls: SlotStory[] = [
 		{ name: 'componentName', type: 'text', defaultValue: 'Button' },
-		{ name: 'language', type: 'select', defaultValue: 'svelte', options: ['svelte', 'ts', 'js'] }
+		{ name: 'language', type: 'select', defaultValue: 'svelte', options: ['svelte', 'html', 'css'] }
 	];
 
 	const sampleCode =
@@ -28,7 +28,11 @@
 >
 	{#snippet children(values: any)}
 		<RecipeCodeViewer
-			code={sampleCode}
+			code={values.language === 'css'
+				? 'button {\n  color: #fff;\n  background: #2563eb;\n  padding: 0.5rem 1rem;\n}'
+				: values.language === 'html'
+					? '<button class="primary" type="button">Click me</button>'
+					: sampleCode}
 			componentName={values.componentName}
 			language={values.language}
 		/>

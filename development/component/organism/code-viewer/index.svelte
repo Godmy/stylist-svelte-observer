@@ -4,15 +4,12 @@
 	import { onMount } from 'svelte';
 	import { createCodeViewerState } from './state.svelte';
 	let props: RecipeCodeViewer & HTMLAttributes<HTMLDivElement> = $props();
-	const state = createCodeViewerState(props);
-	let highlightSequence = 0;
+	const state = createCodeViewerState(() => props);
 
 	onMount(() => {
-		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			state.darkMode = true;
-		}
-
+		if (!window.matchMedia) return;
 		const media = window.matchMedia('(prefers-color-scheme: dark)');
+		state.darkMode = media.matches;
 		const handler = (e: MediaQueryListEvent) => {
 			state.darkMode = e.matches;
 		};
@@ -20,33 +17,21 @@
 
 		return () => media.removeEventListener('change', handler);
 	});
-
-	$effect(() => {
-		state.currentTheme = state.darkMode ? 'github-dark' : 'github-light';
-	});
-
-	$effect(() => {
-		const codeSnippet = state.generatedCode;
-		const lang = state.currentLanguage;
-		const activeTheme = state.currentTheme;
-		const requestId = ++highlightSequence;
-		state.highlightCode(codeSnippet, lang, activeTheme, requestId);
-	});
 </script>
 
-<div class="pcv-wrap">
+<div class="pcv-wrap" data-code-theme={state.isDark ? 'dark' : 'light'}>
 	<div class="pcv-tabs">
 		<div class="pcv-tabs-left">
-			<span class="pcv-lang-badge">Svelte 5</span>
+			<span class="pcv-lang-badge">{state.language.toUpperCase()}</span>
 			<span class="pcv-lang-label">Component Code</span>
 		</div>
 	</div>
 
 	<div class="pcv-toolbar">
 		<div class="pcv-toolbar-info">
-			{state.currentLanguage} • {state.generatedCode.split('\n').length} lines
+			{state.language} • {state.code.split('\n').length} lines
 			{#if state.componentName}
-				• Dynamic generation
+				• {state.componentName}
 			{/if}
 		</div>
 		<div class="pcv-toolbar-btns">
@@ -56,10 +41,8 @@
 	</div>
 
 	<div class="pcv-content">
-		{#if state.isLoading}
-			<div class="pcv-loading">Loading highlighted code...</div>
-		{:else if state.highlightedCode}
-			{@html state.highlightedCode}
+		{#if state.code}
+			<pre class="pcv-pre"><code>{@html state.highlightedCode}</code></pre>
 		{:else}
 			<div class="pcv-empty">No code to display</div>
 		{/if}
@@ -67,15 +50,39 @@
 </div>
 
 <style>
+	.pcv-pre {
+		margin: 0;
+		padding: 1rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.875rem;
+		line-height: 1.625;
+		tab-size: 2;
+	}
+	.pcv-wrap[data-code-theme='dark'] {
+		--code-comment: #8b949e;
+		--code-tag: #7ee787;
+		--code-attribute: #79c0ff;
+		--code-string: #a5d6ff;
+		--code-keyword: #ff7b72;
+		--code-number: #79c0ff;
+		background: #0d1117;
+		color: #e6edf3;
+	}
 	.pcv-wrap {
+		--code-comment: #57606a;
+		--code-tag: #116329;
+		--code-attribute: #0550ae;
+		--code-string: #0a3069;
+		--code-keyword: #cf222e;
+		--code-number: #0550ae;
+		background: #ffffff;
+		color: #24292f;
 		overflow: hidden;
 		border-radius: 0.5rem;
 		border: 1px solid #e5e7eb;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-wrap {
-			border-color: #374151;
-		}
+	.pcv-wrap[data-code-theme='dark'] {
+		border-color: #374151;
 	}
 	.pcv-tabs {
 		display: flex;
@@ -85,11 +92,9 @@
 		background: #f9fafb;
 		padding: 0.5rem 1rem;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-tabs {
-			border-color: #374151;
-			background: #1f2937;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-tabs {
+		border-color: #374151;
+		background: #1f2937;
 	}
 	.pcv-tabs-left {
 		display: flex;
@@ -104,20 +109,16 @@
 		font-weight: 600;
 		color: #c2410c;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-lang-badge {
-			background: rgb(124 45 18 / 0.3);
-			color: #fb923c;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-lang-badge {
+		background: rgb(124 45 18 / 0.3);
+		color: #fb923c;
 	}
 	.pcv-lang-label {
 		font-size: 0.75rem;
 		color: #6b7280;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-lang-label {
-			color: #9ca3af;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-lang-label {
+		color: #9ca3af;
 	}
 	.pcv-toolbar {
 		display: flex;
@@ -127,20 +128,16 @@
 		background: #f3f4f6;
 		padding: 0.5rem;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-toolbar {
-			border-color: #374151;
-			background: #1f2937;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-toolbar {
+		border-color: #374151;
+		background: #1f2937;
 	}
 	.pcv-toolbar-info {
 		font-size: 0.75rem;
 		color: #6b7280;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-toolbar-info {
-			color: #9ca3af;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-toolbar-info {
+		color: #9ca3af;
 	}
 	.pcv-toolbar-btns {
 		display: flex;
@@ -159,36 +156,22 @@
 	.pcv-btn:hover {
 		background: #d1d5db;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-btn {
-			background: #374151;
-			color: #e5e7eb;
-		}
-		.pcv-btn:hover {
-			background: #4b5563;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-btn {
+		background: #374151;
+		color: #e5e7eb;
+	}
+	.pcv-wrap[data-code-theme='dark'] .pcv-btn:hover {
+		background: #4b5563;
 	}
 	.pcv-content {
 		max-height: 24rem;
 		overflow: auto;
 	}
-	.pcv-loading {
-		padding: 1rem;
-		text-align: center;
-		color: #6b7280;
-	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-loading {
-			color: #9ca3af;
-		}
-	}
 	.pcv-empty {
 		padding: 1rem;
 		color: #6b7280;
 	}
-	@media (prefers-color-scheme: dark) {
-		.pcv-empty {
-			color: #9ca3af;
-		}
+	.pcv-wrap[data-code-theme='dark'] .pcv-empty {
+		color: #9ca3af;
 	}
 </style>

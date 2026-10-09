@@ -1,101 +1,48 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { RecipeCodeViewer } from '$stylist/development/interface/recipe/code-viewer';
-import { untrack } from 'svelte';
-export function createCodeViewerState(props: RecipeCodeViewer & HTMLAttributes<HTMLDivElement>) {
-	const code = $derived(props.code ?? '');
-	const componentName = $derived(props.componentName ?? '');
-	const componentProps = $derived(props.props ?? {});
-	const language = $derived(props.language ?? 'svelte');
-	const theme = $derived(props.theme ?? 'github-light');
-	const onCopySuccess = $derived(props.onCopySuccess);
-	const onCopyError = $derived(props.onCopyError);
-	const onDownloadSuccess = $derived(props.onDownloadSuccess);
-	const onDownloadError = $derived(props.onDownloadError);
-
-	let highlightedCode = $state('');
-	let isLoading = $state(true);
-	let currentTheme = $state(untrack(() => theme));
+import { highlightCode } from '../../../function/transform/code-highlight';
+export function createCodeViewerState(
+	getProps: () => RecipeCodeViewer & HTMLAttributes<HTMLDivElement>
+) {
+	const code = $derived(getProps().code ?? '');
+	const componentName = $derived(getProps().componentName ?? '');
+	const language = $derived(getProps().language ?? 'svelte');
 	let darkMode = $state(false);
-	const highlightSequence = 0;
-	let shikiLoader: Promise<typeof import('shiki')> | null = null;
-
-	const generatedCode = $derived.by(() => {
-		if (componentName && Object.keys(componentProps).length > 0) {
-			// Would call buildComponentPreviewCode here
-			return code;
-		}
-		return code;
-	});
-
-	const currentLanguage = $derived.by(() => (componentName ? 'svelte' : language));
-
-	const loadShiki = () => {
-		if (!shikiLoader) {
-			shikiLoader = import('shiki');
-		}
-		return shikiLoader;
-	};
-
-	async function highlightCode(
-		codeToHighlight: string,
-		lang: string,
-		activeTheme: string,
-		requestId: number
-	) {
-		if (!codeToHighlight) {
-			highlightedCode = '';
-			isLoading = false;
-			return;
-		}
-
-		try {
-			isLoading = true;
-			const { codeToHtml } = await loadShiki();
-			const highlighted = await codeToHtml(codeToHighlight, {
-				lang,
-				theme: activeTheme
-			});
-
-			if (requestId === highlightSequence) {
-				highlightedCode = highlighted;
-			}
-		} catch (error) {
-			if (requestId === highlightSequence) {
-				console.error('Code highlight error', error);
-				highlightedCode = `<pre><code>${codeToHighlight}</code></pre>`;
-			}
-		} finally {
-			if (requestId === highlightSequence) {
-				isLoading = false;
-			}
-		}
-	}
+	const isDark = $derived(
+		getProps().theme ? ['dark', 'github-dark'].includes(getProps().theme!) : darkMode
+	);
+	const highlightedCode = $derived(highlightCode(code, language));
 
 	const copyCode = async () => {
 		try {
-			await navigator.clipboard.writeText(generatedCode);
-			onCopySuccess?.();
+			await navigator.clipboard.writeText(code);
+			getProps().onCopySuccess?.();
 		} catch (error) {
 			console.error('Copy error', error);
-			onCopyError?.(error);
+			getProps().onCopyError?.(error);
 		}
 	};
 
 	const downloadCode = () => {
+		let url: string | undefined;
+		let anchor: HTMLAnchorElement | undefined;
 		try {
-			const blob = new Blob([generatedCode], { type: 'text/plain' });
-			const url = URL.createObjectURL(blob);
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = `${componentName || 'component'}.svelte`;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-			onDownloadSuccess?.();
+			url = URL.createObjectURL(new Blob([code], { type: 'text/plain' }));
+			anchor = document.createElement('a');
+			anchor.href = url;
+			const extension = ['svelte', 'html', 'css'].includes(language.toLowerCase())
+				? language.toLowerCase()
+				: 'txt';
+			anchor.download = `${componentName || 'component'}.${extension}`;
+			document.body.appendChild(anchor);
+			anchor.click();
+			getProps().onDownloadSuccess?.();
 		} catch (error) {
 			console.error('Download error', error);
-			onDownloadError?.(error);
+			getProps().onDownloadError?.(error);
+		} finally {
+			anchor?.remove();
+			if (url) URL.revokeObjectURL(url);
 		}
 	};
 
@@ -106,42 +53,19 @@ export function createCodeViewerState(props: RecipeCodeViewer & HTMLAttributes<H
 		get componentName() {
 			return componentName;
 		},
-		get componentProps() {
-			return componentProps;
-		},
 		get language() {
 			return language;
-		},
-		get theme() {
-			return theme;
 		},
 		get highlightedCode() {
 			return highlightedCode;
 		},
-		get isLoading() {
-			return isLoading;
-		},
-		get currentTheme() {
-			return currentTheme;
-		},
-		get darkMode() {
-			return darkMode;
-		},
-		get generatedCode() {
-			return generatedCode;
-		},
-		get currentLanguage() {
-			return currentLanguage;
+		get isDark() {
+			return isDark;
 		},
 		set darkMode(value: boolean) {
 			darkMode = value;
 		},
-		set currentTheme(value: 'light' | 'dark' | 'github-light' | 'github-dark') {
-			currentTheme = value;
-		},
-		highlightCode,
 		copyCode,
-		downloadCode,
-		loadShiki
+		downloadCode
 	};
 }

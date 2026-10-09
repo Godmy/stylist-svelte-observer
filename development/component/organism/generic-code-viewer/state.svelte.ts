@@ -1,34 +1,22 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { RecipeGenericCodeViewer } from '$stylist/development/interface/recipe/generic-code-viewer';
+import { highlightCode } from '../../../function/transform/code-highlight';
 export function createGenericCodeViewerState(
-	props: RecipeGenericCodeViewer & HTMLAttributes<HTMLDivElement>
+	getProps: () => RecipeGenericCodeViewer & HTMLAttributes<HTMLDivElement>
 ) {
-	const code = $derived(props.code ?? '');
-	const language = $derived(props.language ?? 'svelte');
-
+	const code = $derived(getProps().code ?? '');
+	const language = $derived(getProps().language ?? 'svelte');
+	const highlightedCode = $derived(highlightCode(code, language));
 	let copied = $state(false);
-	let highlightedCode = $state('');
-
-	async function updateHighlightedCode() {
-		if (code) {
-			try {
-				const { codeToHtml } = await import('shiki');
-				highlightedCode = await codeToHtml(code, {
-					lang: language,
-					theme: 'github-dark'
-				});
-			} catch {
-				highlightedCode = '';
-			}
-		}
-	}
+	let copyTimeout: ReturnType<typeof setTimeout> | undefined;
 
 	async function copyCode() {
 		try {
 			if (code) {
 				await navigator.clipboard.writeText(code);
 				copied = true;
-				setTimeout(() => {
+				clearTimeout(copyTimeout);
+				copyTimeout = setTimeout(() => {
 					copied = false;
 				}, 2000);
 			}
@@ -50,7 +38,9 @@ export function createGenericCodeViewerState(
 		get highlightedCode() {
 			return highlightedCode;
 		},
-		updateHighlightedCode,
-		copyCode
+		copyCode,
+		destroy() {
+			clearTimeout(copyTimeout);
+		}
 	};
 }

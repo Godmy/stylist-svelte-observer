@@ -8,7 +8,7 @@
 			name: 'language',
 			type: 'select',
 			defaultValue: 'svelte',
-			options: ['svelte', 'ts', 'js', 'css', 'html']
+			options: ['svelte', 'html', 'css']
 		}
 	];
 
@@ -29,6 +29,13 @@
 	{controls}
 >
 	{#snippet children(values: any)}
-		<RecipeGenericCodeViewer code={sampleCode} language={values.language} />
+		<RecipeGenericCodeViewer
+			code={values.language === 'css'
+				? 'button {\n  color: #fff;\n  background: #2563eb;\n  padding: 0.5rem 1rem;\n}'
+				: values.language === 'html'
+					? '<button class="primary" type="button">Click me</button>'
+					: sampleCode}
+			language={values.language}
+		/>
 	{/snippet}
 </Story>

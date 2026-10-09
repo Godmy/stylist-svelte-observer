@@ -710,6 +710,14 @@
           "particle-count": "INDEXED_CONST"
         }
       },
+      "function": {
+        "test": {
+          "code-highlight": "FUNCTION_TEST"
+        },
+        "transform": {
+          "code-highlight": "INDEXED_FUNCTION"
+        }
+      },
       "interface": {
         "recipe": {
           "atomic-principles": "INDEXED_INTERFACE",

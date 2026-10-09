@@ -696,7 +696,7 @@
     },
     {
       "name": "development",
-      "fileCount": 149,
+      "fileCount": 153,
       "components": {
         "atoms": 3,
         "molecules": 6,
@@ -765,6 +765,22 @@
               "name": "value",
               "entityCount": 2,
               "fileCount": 3
+            }
+          ]
+        },
+        {
+          "name": "function",
+          "fileCount": 4,
+          "joints": [
+            {
+              "name": "test",
+              "entityCount": 1,
+              "fileCount": 1
+            },
+            {
+              "name": "transform",
+              "entityCount": 1,
+              "fileCount": 2
             }
           ]
         },
@@ -3080,7 +3096,7 @@
   ],
   "totals": {
     "domains": 35,
-    "files": 4225,
+    "files": 4229,
     "atoms": 183,
     "molecules": 151,
     "organisms": 126,

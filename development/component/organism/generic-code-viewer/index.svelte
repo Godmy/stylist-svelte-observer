@@ -1,13 +1,12 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { RecipeGenericCodeViewer } from '$stylist/development/interface/recipe/generic-code-viewer';
+	import { onDestroy } from 'svelte';
 	import { createGenericCodeViewerState } from './state.svelte';
 	let props: RecipeGenericCodeViewer & HTMLAttributes<HTMLDivElement> = $props();
-	const state = createGenericCodeViewerState(props);
+	const state = createGenericCodeViewerState(() => props);
 
-	$effect(() => {
-		state.updateHighlightedCode();
-	});
+	onDestroy(state.destroy);
 </script>
 
 <div class="gcv-wrap">
@@ -50,7 +49,7 @@
 
 	<div class="gcv-content">
 		{#if state.code && state.highlightedCode}
-			<pre class="gcv-pre">{@html state.highlightedCode}</pre>
+			<pre class="gcv-pre"><code>{@html state.highlightedCode}</code></pre>
 		{:else if state.code}
 			<pre class="gcv-pre gcv-pre--plain">{state.code}</pre>
 		{:else}
