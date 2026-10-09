@@ -17,6 +17,19 @@ export {
 	JointTabButtons,
 	JointToolbar,
 	JsonTreeViewer,
+	SamoAdoptionRoadmap,
+	SamoArchitectureCompare,
+	SamoAssemblyPipeline,
+	SamoChangeFlow,
+	SamoExtensionWalkthrough,
+	SamoGuideHero,
+	SamoMorphologyBox,
+	SamoNestedMethods,
+	SamoOverview,
+	SamoPlatformStack,
+	SamoPractice,
+	SamoRiskBoard,
+	SamoSolidGrid,
 	StylistHeroIntro,
 	StylistMission,
 	TaxonomyBreadcrumbs,
@@ -36,9 +49,11 @@ export {
 	DomainSettings,
 	DomainSidebar,
 	MarkdownRenderer,
+	SamoMethodology,
 	StylistHero
 } from './organism';
 export {
+	DomainHowItWorks,
 	DomainLanding,
 	DomainPlayground
 } from './page';

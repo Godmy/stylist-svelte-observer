@@ -7,10 +7,12 @@
 		landingVisible = false,
 		domainVisible = true,
 		diagnosticsOpen = false,
+		howItWorksOpen = false,
 		settingsOpen = false,
 		onLandingToggle,
 		onDomainToggle,
 		onDiagnosticsToggle,
+		onHowItWorksToggle,
 		onSettingsToggle,
 		onManifestReload,
 		class: className = ''
@@ -52,6 +54,18 @@
 		title="Diagnostics"
 	>
 		<Icon name="diagnostics" size={18} />
+	</button>
+
+	<button
+		type="button"
+		class:active={howItWorksOpen}
+		class="menu-button menu-button--icon menu-button--help"
+		onclick={onHowItWorksToggle}
+		aria-pressed={howItWorksOpen}
+		aria-label="How it works"
+		title="How it works"
+	>
+		<span class="menu-help-mark" aria-hidden="true">?</span>
 	</button>
 
 	{#if onManifestReload}
@@ -201,6 +215,22 @@
 			color-mix(in srgb, var(--color-background-primary) 70%, var(--color-primary-500) 30%) 0%,
 			color-mix(in srgb, var(--color-background-primary) 66%, var(--color-primary-600) 34%) 100%
 		);
+	}
+
+	/* The guide entry point carries the landing's warm accent so it reads as "help", not as a tool. */
+	.menu-help-mark {
+		font-size: 1.1rem;
+		font-weight: 900;
+		line-height: 1;
+		background: linear-gradient(135deg, var(--color-warning-500, #f59e0b), #dc2626);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.menu-button--help.active .menu-help-mark {
+		background: none;
+		-webkit-text-fill-color: currentColor;
 	}
 
 	@media (max-width: 840px) {

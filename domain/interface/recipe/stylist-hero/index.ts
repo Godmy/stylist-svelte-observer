@@ -4,5 +4,6 @@ export interface RecipeStylistHero {
 	onBrowseComponents?: () => void;
 	onOpenPlayground?: () => void;
 	onOpenWorkspace?: () => void;
+	onOpenGuide?: () => void;
 	class?: string;
 }

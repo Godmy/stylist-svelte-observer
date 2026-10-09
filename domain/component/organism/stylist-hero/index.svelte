@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CtaButtons from '$stylist/domain/component/molecule/cta-buttons/index.svelte';
 	import FeatureGrid from '$stylist/domain/component/molecule/feature-grid/index.svelte';
+	import SamoMethodology from '$stylist/domain/component/organism/samo-methodology/index.svelte';
 	import StylistHeroIntro from '$stylist/domain/component/molecule/stylist-hero-intro/index.svelte';
 	import StylistMission from '$stylist/domain/component/molecule/stylist-mission/index.svelte';
 	import type { RecipeStylistHero } from '$stylist/domain/interface/recipe/stylist-hero';
@@ -11,6 +12,7 @@
 		onBrowseComponents,
 		onOpenPlayground,
 		onOpenWorkspace,
+		onOpenGuide,
 		class: className = ''
 	}: RecipeStylistHero = $props();
 </script>
@@ -32,6 +34,12 @@
 		<div class="content-band">
 			<div class="content-shell">
 				<FeatureGrid />
+			</div>
+		</div>
+
+		<div class="content-band">
+			<div class="content-shell">
+				<SamoMethodology {onOpenGuide} />
 			</div>
 		</div>
 

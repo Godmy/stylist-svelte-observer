@@ -35,6 +35,8 @@
 		import('$stylist/domain/component/organism/domain-explorer/index.svelte');
 	const loadDomainDiagnostics = () =>
 		import('$stylist/domain/component/organism/domain-diagnostics/index.svelte');
+	const loadDomainHowItWorks = () =>
+		import('$stylist/domain/component/page/domain-how-it-works/index.svelte');
 	const loadDomainSettings = () =>
 		import('$stylist/domain/component/organism/domain-settings/index.svelte');
 </script>
@@ -70,6 +72,14 @@
 			{@const DomainDiagnostics = module.default}
 			<DomainDiagnostics />
 		{/await}
+	{:else if screenState.currentScreen === DOMAIN_SCREEN.HOW_IT_WORKS}
+		{#await loadDomainHowItWorks() then module}
+			{@const DomainHowItWorks = module.default}
+			<DomainHowItWorks
+				onOpenLanding={screenState.handleLandingToggle}
+				onBrowseComponents={screenState.handleDomainToggle}
+			/>
+		{/await}
 	{:else}
 		<DomainLanding
 			rootDomainCount={Array.isArray(tree) ? tree.length : Object.keys(tree).length}
@@ -77,6 +87,7 @@
 			onBrowseComponents={screenState.handleDomainToggle}
 			onOpenPlayground={screenState.handleDomainToggle}
 			onOpenWorkspace={screenState.handleDomainToggle}
+			onOpenGuide={screenState.handleHowItWorksToggle}
 		/>
 	{/if}
 
@@ -97,10 +108,12 @@
 			landingVisible={screenState.currentScreen === DOMAIN_SCREEN.LANDING}
 			domainVisible={screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
 			diagnosticsOpen={screenState.currentScreen === DOMAIN_SCREEN.DIAGNOSTICS}
+			howItWorksOpen={screenState.currentScreen === DOMAIN_SCREEN.HOW_IT_WORKS}
 			settingsOpen={screenState.isSettingsOpen}
 			onLandingToggle={screenState.handleLandingToggle}
 			onDomainToggle={screenState.handleDomainToggle}
 			onDiagnosticsToggle={screenState.handleDiagnosticsToggle}
+			onHowItWorksToggle={screenState.handleHowItWorksToggle}
 			onSettingsToggle={screenState.handleSettingsToggle}
 			onManifestReload={screenState.handleManifestReload}
 		/>

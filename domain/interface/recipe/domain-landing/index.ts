@@ -4,5 +4,6 @@ export interface RecipeDomainLanding {
 	onBrowseComponents?: () => void;
 	onOpenPlayground?: () => void;
 	onOpenWorkspace?: () => void;
+	onOpenGuide?: () => void;
 	class?: string;
 }

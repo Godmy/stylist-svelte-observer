@@ -8,6 +8,7 @@
 		onBrowseComponents,
 		onOpenPlayground,
 		onOpenWorkspace,
+		onOpenGuide,
 		class: className = ''
 	}: RecipeDomainLanding = $props();
 </script>
@@ -18,5 +19,6 @@
 	{onBrowseComponents}
 	{onOpenPlayground}
 	{onOpenWorkspace}
+	{onOpenGuide}
 	class={className}
 />
