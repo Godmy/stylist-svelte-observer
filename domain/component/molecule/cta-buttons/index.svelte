@@ -2,18 +2,21 @@
 	import BaseIcon from '$stylist/svg/component/atom/icon/index.svelte';
 	import type { RecipeCtaButtons } from '$stylist/domain/interface/recipe/cta-buttons';
 
-	const Package = 'package';
+	const Package = 'box';
 	const Layers = 'layers';
 	const ArrowRight = 'arrow-right';
 
 	let {
-		totalComponents = 0,
+		// Kept so it is not spread onto the wrapper as an attribute.
+		totalComponents: _totalComponents = 0,
 		componentsHref = '/components',
 		playgroundHref = '/playground',
-		componentsTitle = 'Browse Components',
-		componentsDescriptionPrefix = 'Explore',
+		componentsTitle = 'Explore Components',
+		componentsDescription = 'Discover reusable UI components, organized examples, documentation, and source code.',
+		componentsActionLabel = 'Browse Library',
 		playgroundTitle = 'Interactive Playground',
-		playgroundDescription = 'Open the same component explorer with stories, files, markdown and structured context.',
+		playgroundDescription = 'Experiment with components, explore their behavior, and learn from working examples.',
+		playgroundActionLabel = 'Start Exploring',
 		onComponentsOpen,
 		onPlaygroundOpen,
 		class: className = '',
@@ -34,33 +37,28 @@
 </script>
 
 <div class={`c-marketing-cta-buttons ${className}`} {...restProps}>
-	<a href={componentsHref} class="cta-card cta-card--orange" onclick={handleComponentsClick}>
-		<div class="cta-card-shimmer"></div>
-		<div class="cta-card-top">
-			<BaseIcon
-				name={Package}
-				size={48} style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3))"
-			/>
-			<BaseIcon name={ArrowRight} class="cta-arrow" />
-		</div>
+	<a href={componentsHref} class="cta-card cta-card--warm" onclick={handleComponentsClick}>
+		<span class="cta-card-icon" aria-hidden="true">
+			<BaseIcon name={Package} size={28} />
+		</span>
 		<h3 class="cta-card-title">{componentsTitle}</h3>
-		<p class="cta-card-desc cta-card-desc--orange">
-			{componentsDescriptionPrefix}
-			{totalComponents} library entries with stories, docs and implementation context.
-		</p>
+		<p class="cta-card-desc">{componentsDescription}</p>
+		<span class="cta-card-action">
+			{componentsActionLabel}
+			<BaseIcon name={ArrowRight} size={18} class="cta-arrow" />
+		</span>
 	</a>
 
-	<a href={playgroundHref} class="cta-card cta-card--blue" onclick={handlePlaygroundClick}>
-		<div class="cta-card-shimmer"></div>
-		<div class="cta-card-top">
-			<BaseIcon
-				name={Layers}
-				size={48} style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3))"
-			/>
-			<BaseIcon name={ArrowRight} class="cta-arrow" />
-		</div>
+	<a href={playgroundHref} class="cta-card cta-card--cool" onclick={handlePlaygroundClick}>
+		<span class="cta-card-icon" aria-hidden="true">
+			<BaseIcon name={Layers} size={28} />
+		</span>
 		<h3 class="cta-card-title">{playgroundTitle}</h3>
-		<p class="cta-card-desc cta-card-desc--blue">{playgroundDescription}</p>
+		<p class="cta-card-desc">{playgroundDescription}</p>
+		<span class="cta-card-action">
+			{playgroundActionLabel}
+			<BaseIcon name={ArrowRight} size={18} class="cta-arrow" />
+		</span>
 	</a>
 </div>
 
@@ -80,84 +78,112 @@
 		}
 	}
 
+	/* Calm surfaces; each card carries one accent colour (--cta-accent). */
 	.cta-card {
 		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 		overflow: hidden;
 		border-radius: 28px;
+		border: 1px solid color-mix(in srgb, var(--cta-accent) 22%, var(--color-border-primary));
 		padding: 2rem;
-		color: #fff;
+		color: var(--color-text-primary);
 		text-align: left;
-		box-shadow:
-			0 20px 25px -5px rgba(0, 0, 0, 0.1),
-			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+		text-decoration: none;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 		transition:
 			transform var(--duration-300, 300ms),
-			box-shadow var(--duration-300, 300ms);
-		text-decoration: none;
+			box-shadow var(--duration-300, 300ms),
+			border-color var(--duration-300, 300ms);
 	}
 
 	.cta-card:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+		border-color: color-mix(in srgb, var(--cta-accent) 45%, var(--color-border-primary));
+		box-shadow: 0 18px 36px -18px color-mix(in srgb, var(--cta-accent) 45%, transparent);
 	}
 
-	.cta-card--orange {
-		background: linear-gradient(to right, #ea580c, #f97316, #dc2626);
+	/* Same warm wash as the hero (AnimatedBackground). */
+	.cta-card--warm {
+		--cta-accent: var(--color-warning-500, #f59e0b);
+		background:
+			radial-gradient(
+				circle at top left,
+				color-mix(in srgb, var(--color-warning-500, #f59e0b) 18%, transparent),
+				transparent 55%
+			),
+			radial-gradient(
+				circle at bottom right,
+				color-mix(in srgb, var(--color-error-500, #ef4444) 12%, transparent),
+				transparent 55%
+			),
+			color-mix(in srgb, var(--color-background-primary) 92%, white 8%);
 	}
 
-	.cta-card--blue {
-		background: linear-gradient(to bottom right, #0284c7, #06b6d4, #1d4ed8);
+	.cta-card--cool {
+		--cta-accent: var(--color-info-500, #0ea5e9);
+		background:
+			radial-gradient(
+				circle at top left,
+				color-mix(in srgb, var(--color-info-500, #0ea5e9) 16%, transparent),
+				transparent 55%
+			),
+			radial-gradient(
+				circle at bottom right,
+				color-mix(in srgb, var(--color-primary-500, #3b82f6) 10%, transparent),
+				transparent 55%
+			),
+			color-mix(in srgb, var(--color-background-primary) 92%, white 8%);
 	}
 
-	.cta-card-shimmer {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(to bottom right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
-		opacity: 0;
-		transition: opacity 0.2s;
-	}
-
-	.cta-card:hover .cta-card-shimmer {
-		opacity: 1;
-	}
-
-	.cta-card-top {
-		position: relative;
-		margin-bottom: 1rem;
-		display: flex;
+	.cta-card-icon {
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
-	}
-
-	:global(.cta-arrow) {
-		width: 2rem;
-		height: 2rem;
-		color: rgba(255, 255, 255, 0.7);
-		transition:
-			transform 0.2s,
-			color 0.2s;
-	}
-
-	.cta-card:hover :global(.cta-arrow) {
-		transform: translateX(8px);
-		color: #fff;
+		justify-content: center;
+		width: 3.25rem;
+		height: 3.25rem;
+		margin-bottom: 1.25rem;
+		border-radius: 1rem;
+		color: var(--cta-accent);
+		background-color: color-mix(in srgb, var(--cta-accent) 14%, transparent);
 	}
 
 	.cta-card-title {
-		position: relative;
-		margin-bottom: 0.75rem;
-		font-size: 1.875rem;
+		margin: 0 0 0.75rem;
+		font-size: 1.75rem;
 		font-weight: 900;
+		letter-spacing: -0.02em;
 	}
 
 	.cta-card-desc {
-		position: relative;
+		margin: 0 0 1.5rem;
+		color: var(--color-text-secondary);
+		line-height: 1.6;
 	}
 
-	.cta-card-desc--orange {
-		color: #fff7ed;
+	.cta-card-action {
+		margin-top: auto;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		font-weight: 700;
+		color: var(--cta-accent);
 	}
-	.cta-card-desc--blue {
-		color: #ecfeff;
+
+	:global(.cta-arrow) {
+		transition: transform 0.2s;
+	}
+
+	.cta-card:hover :global(.cta-arrow) {
+		transform: translateX(6px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cta-card,
+		.cta-card:hover,
+		.cta-card:hover :global(.cta-arrow) {
+			transform: none;
+		}
 	}
 </style>

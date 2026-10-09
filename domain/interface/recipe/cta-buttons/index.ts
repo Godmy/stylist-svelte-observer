@@ -4,9 +4,11 @@ export interface RecipeCtaButtons extends HTMLAttributes<HTMLDivElement> {
 	componentsHref?: string;
 	playgroundHref?: string;
 	componentsTitle?: string;
-	componentsDescriptionPrefix?: string;
+	componentsDescription?: string;
+	componentsActionLabel?: string;
 	playgroundTitle?: string;
 	playgroundDescription?: string;
+	playgroundActionLabel?: string;
 	onComponentsOpen?: () => void;
 	onPlaygroundOpen?: () => void;
 	class?: string;
