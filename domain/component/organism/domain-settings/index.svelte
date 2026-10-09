@@ -1,22 +1,28 @@
 <script lang="ts">
 	import ThemeSettings from '$stylist/theme/component/organism/theme-settings/index.svelte';
 	import { ManagerThemeSettings } from '$stylist/theme/class/manager/theme-settings';
+	import { ManagerThemeContext } from '$stylist/theme/class/manager/theme-context';
 	import type { RecipeDomainSettings } from '$stylist/domain/interface/recipe/domain-settings';
 
 	let { open = false, onClose, class: className = '' }: RecipeDomainSettings = $props();
 
-	const settingsRecipe = ManagerThemeSettings.createContract({
-		modeSection: {
-			show: true,
-			title: '',
-			description: 'Switch between default, light and dark.'
-		},
-		schemeSection: {
-			show: true,
-			title: '',
-			description: 'Choose the palette used by the explorer.'
-		}
-	});
+	const themeContext = ManagerThemeContext.getOptional();
+	const settingsRecipe = $derived(
+		ManagerThemeSettings.createContract({
+			themeMode: themeContext?.themeMode,
+			themeScheme: themeContext?.themeScheme,
+			modeSection: {
+				show: true,
+				title: '',
+				description: 'Switch between default, light and dark.'
+			},
+			schemeSection: {
+				show: true,
+				title: '',
+				description: 'Choose the palette used by the explorer.'
+			}
+		})
+	);
 </script>
 
 {#if open}
