@@ -43,6 +43,7 @@ component/page/domain-playground          - root shell and screen switcher
 ```
 
 `domain-diagnostics` combines two independent checks: the story runner (imports and mounts every `*.story.svelte` to catch runtime errors) and `domain-file-diagnostics`, a static dashboard fed by generated manifests rather than by running code:
+
 - `data/json/domain-files/index.json` — file/component counts and cluster balance per domain
 - `data/json/domain-component-intervals/index.json` — component size/interval stats, consumed by `domain-file-overview`
 - `data/json/domain-component-import-diagnostics/index.json` — import-health rows and summary, consumed by `domain-component-import-diagnostics`
