@@ -94,8 +94,7 @@
 					value={state.draftText}
 					oninput={(event) =>
 						state.setDraftText((event.currentTarget as HTMLTextAreaElement).value)}
-					disabled={state.isSending}
-				></textarea>
+					disabled={state.isSending}></textarea>
 				<div class="draft-actions">
 					<Button
 						variant="ghost"

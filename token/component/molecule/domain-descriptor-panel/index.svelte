@@ -196,6 +196,8 @@
 	}
 
 	$effect(() => {
+		// Read only to re-run the projection when the descriptor path changes.
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		descriptorEntityPath;
 		projection = null;
 		projectionError = '';

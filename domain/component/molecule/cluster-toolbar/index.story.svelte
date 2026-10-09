@@ -26,7 +26,7 @@
 >
 	{#snippet children(values: any)}
 		<div class="_c1">
-				<ClusterToolbar
+			<ClusterToolbar
 				{active}
 				orientation={values.orientation as TokenOrientation}
 				showLabel={Boolean(values.showLabel)}

@@ -1,11 +1,7 @@
 <script lang="ts">
 	import type { RecipeDomainComponentImportDiagnostics } from '$stylist/domain/interface/recipe/domain-component-import-diagnostics';
 
-	let {
-		rows,
-		summary,
-		class: className = ''
-	}: RecipeDomainComponentImportDiagnostics = $props();
+	let { rows, summary, class: className = '' }: RecipeDomainComponentImportDiagnostics = $props();
 
 	function formatDomainName(value: string): string {
 		return value

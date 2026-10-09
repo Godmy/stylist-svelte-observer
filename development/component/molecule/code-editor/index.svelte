@@ -63,8 +63,7 @@
 		style={`height:${height}px;${width == null ? 'width:100%;' : `width:${width}px;`}font-size:${FONT_SIZE}px;${showLineNumbers ? 'padding-left: var(--spacing-10);' : ''}`}
 		bind:value={state.internalCode}
 		oninput={(e) => state.handleCodeChange((e.target as HTMLTextAreaElement).value)}
-		readonly={readOnly}
-	></textarea>
+		readonly={readOnly}></textarea>
 </div>
 
 <style>

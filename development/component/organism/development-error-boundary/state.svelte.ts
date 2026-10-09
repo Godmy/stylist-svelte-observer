@@ -1,4 +1,3 @@
-import { ClassNamesManager } from '$stylist/layout/class/manager/class-names';
 import type { RecipeDevelopmentErrorBoundary } from '$stylist/development/interface/recipe/development-error-boundary';
 
 export function createDevelopmentErrorBoundaryState(props: RecipeDevelopmentErrorBoundary) {

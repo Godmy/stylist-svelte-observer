@@ -153,8 +153,7 @@
 							placeholder={index === 0 ? props.placeholder || 'Start writing here...' : ''}
 							bind:value={element.content}
 							oninput={() => state.updateContent(element.id, element.content)}
-							rows={3}
-						></textarea>
+							rows={3}></textarea>
 					{:else if element.type === 'header'}
 						<input
 							type="text"
@@ -169,8 +168,7 @@
 							bind:value={element.content}
 							oninput={() => state.updateContent(element.id, element.content)}
 							placeholder="Quote..."
-							rows={2}
-						></textarea>
+							rows={2}></textarea>
 					{:else if element.type === 'image'}
 						<div class={state.imagePlaceholderClasses}>
 							<BaseIcon

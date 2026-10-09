@@ -75,7 +75,8 @@ export function createDomainPageState(input: DomainPageInput) {
 	const activeEntity = $derived(entities.find((e) => e.path === activeEntityPath));
 	const markdownFile = $derived(
 		activeEntity?.files.find((f) => f.name === 'readme.md') ??
-			activeEntity?.files.find((f) => f.name === 'index.md') ?? null
+			activeEntity?.files.find((f) => f.name === 'index.md') ??
+			null
 	);
 	const storyFile = $derived(
 		activeEntity?.files.find((f) => f.name === 'index.story.svelte') ?? null
@@ -189,11 +190,13 @@ export function createDomainPageState(input: DomainPageInput) {
 			.then(async (r) => {
 				const p = await r.json();
 				if (!r.ok) throw new Error(p.error ?? 'Preview failed');
-				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree')) return;
+				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree'))
+					return;
 				fileContent = p.content ?? '';
 			})
 			.catch((e: Error) => {
-				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree')) return;
+				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree'))
+					return;
 				fileContent = '';
 				fileError = e.message;
 			})
@@ -325,7 +328,8 @@ export function createDomainPageState(input: DomainPageInput) {
 		files = entities.find((e) => e.path === path)?.files ?? []
 	) {
 		activeEntityPath = path;
-		const md = files.find((f) => f.name === 'readme.md') ?? files.find((f) => f.name === 'index.md');
+		const md =
+			files.find((f) => f.name === 'readme.md') ?? files.find((f) => f.name === 'index.md');
 
 		if (previewMode === 'markdown') {
 			if (md) {
@@ -348,8 +352,12 @@ export function createDomainPageState(input: DomainPageInput) {
 
 		const currentName = activeFilePath.split('/').pop();
 		const same = currentName ? files.find((f) => f.name === currentName) : null;
-		activeFilePath = same?.path ?? files.find((f) => f.name === 'index.svelte')?.path ??
-			files.find((f) => f.name === 'index.ts')?.path ?? files[0]?.path ?? '';
+		activeFilePath =
+			same?.path ??
+			files.find((f) => f.name === 'index.svelte')?.path ??
+			files.find((f) => f.name === 'index.ts')?.path ??
+			files[0]?.path ??
+			'';
 		previewMode = 'file';
 	}
 
@@ -390,10 +398,11 @@ export function createDomainPageState(input: DomainPageInput) {
 		activeCluster = entry.cluster;
 		activeJoint = entry.joint;
 		// Resolve the family from the search destination, including a different domain or joint.
-		const next = tree.find((d) => d.name === entry.domain)?.clusters
-			.find((c) => c.name === entry.cluster)?.joints
-			.find((j) => j.name === entry.joint)?.entities
-			.find((e) => e.path === entry.entityPath);
+		const next = tree
+			.find((d) => d.name === entry.domain)
+			?.clusters.find((c) => c.name === entry.cluster)
+			?.joints.find((j) => j.name === entry.joint)
+			?.entities.find((e) => e.path === entry.entityPath);
 		handleEntitySelect(entry.entityPath, next?.files ?? []);
 	}
 

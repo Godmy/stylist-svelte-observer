@@ -1,10 +1,7 @@
 <script lang="ts">
 	import DomainFileDiagnostics from '$stylist/domain/component/organism/domain-file-diagnostics/index.svelte';
 	import type { RecipeDomainDiagnostics } from '$stylist/domain/interface/recipe/domain-diagnostics';
-	import createDomainDiagnosticsState, {
-		formatDuration,
-		getTimingTone
-	} from './state.svelte';
+	import createDomainDiagnosticsState, { formatDuration, getTimingTone } from './state.svelte';
 
 	let { compact = false, class: className = '' }: RecipeDomainDiagnostics = $props();
 

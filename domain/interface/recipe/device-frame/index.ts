@@ -6,8 +6,9 @@ import type { DeviceFrameViewport } from '$stylist/domain/type/alias/device-fram
 import type { SlotClass } from '$stylist/theme/interface/slot/class';
 import type { TokenOrientation } from '$stylist/layout/type/alias/orientation';
 
-export interface RecipeDeviceFrame
-	extends ComputeIntersectAll<[SlotThemeBorder, SlotTypography, SlotChildren, SlotClass]> {
+export interface RecipeDeviceFrame extends ComputeIntersectAll<
+	[SlotThemeBorder, SlotTypography, SlotChildren, SlotClass]
+> {
 	device?: DeviceFrameViewport;
 	orientation?: TokenOrientation;
 }

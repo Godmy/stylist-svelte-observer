@@ -104,10 +104,7 @@
 		'../../../../../observer/domain/component/**/index.svelte',
 		'../../../../../observer/token/component/**/index.svelte',
 		'../../../../../observer/development/component/**/index.svelte'
-	]) as Record<
-		string,
-		() => Promise<SvelteModule>
-	>;
+	]) as Record<string, () => Promise<SvelteModule>>;
 
 	const availableComponentJoints = ['atom', 'molecule', 'organism'] as const;
 

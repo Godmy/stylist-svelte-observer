@@ -68,7 +68,10 @@
 			window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 	}
 	$effect(() => {
+		// Read only to re-sync the frame when the device or fullscreen mode changes.
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		storyDevice;
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		fullscreen;
 		syncFrame();
 	});
