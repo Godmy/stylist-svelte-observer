@@ -73,7 +73,10 @@ export function createDomainPageState(input: DomainPageInput) {
 	const availableJointNames = $derived(activeClusterNode?.joints.map((j) => j.name) ?? []);
 	const entities = $derived(activeJointNode?.entities ?? []);
 	const activeEntity = $derived(entities.find((e) => e.path === activeEntityPath));
-	const markdownFile = $derived(activeEntity?.files.find((f) => f.name === 'index.md') ?? null);
+	const markdownFile = $derived(
+		activeEntity?.files.find((f) => f.name === 'readme.md') ??
+			activeEntity?.files.find((f) => f.name === 'index.md') ?? null
+	);
 	const storyFile = $derived(
 		activeEntity?.files.find((f) => f.name === 'index.story.svelte') ?? null
 	);
@@ -160,17 +163,7 @@ export function createDomainPageState(input: DomainPageInput) {
 		}
 		if (!activeEntityPath || !entities.some((e) => e.path === activeEntityPath)) {
 			const first = entities[0];
-			activeEntityPath = first.path;
-
-			const story = first.files.find((f) => f.name === 'index.story.svelte');
-			if (story) {
-				activeFilePath = story.path;
-				previewMode = 'story';
-				return;
-			}
-
-			activeFilePath = first.files[0]?.path ?? '';
-			previewMode = 'file';
+			handleEntitySelect(first.path, first.files);
 		}
 	});
 
@@ -196,9 +189,11 @@ export function createDomainPageState(input: DomainPageInput) {
 			.then(async (r) => {
 				const p = await r.json();
 				if (!r.ok) throw new Error(p.error ?? 'Preview failed');
+				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree')) return;
 				fileContent = p.content ?? '';
 			})
 			.catch((e: Error) => {
+				if (activeFilePath !== path || (previewMode !== 'file' && previewMode !== 'json-tree')) return;
 				fileContent = '';
 				fileError = e.message;
 			})
@@ -222,9 +217,11 @@ export function createDomainPageState(input: DomainPageInput) {
 			.then(async (r) => {
 				const p = await r.json();
 				if (!r.ok) throw new Error(p.error ?? 'Preview failed');
+				if (previewMode !== 'markdown' || markdownFile?.path !== path) return;
 				fileContent = p.content ?? '';
 			})
 			.catch((e: Error) => {
+				if (previewMode !== 'markdown' || markdownFile?.path !== path) return;
 				fileContent = '';
 				fileError = e.message;
 			})
@@ -323,28 +320,36 @@ export function createDomainPageState(input: DomainPageInput) {
 		activeFilePath = '';
 	}
 
-	function handleEntitySelect(path: string) {
-		const next = entities.find((e) => e.path === path);
+	function handleEntitySelect(
+		path: string,
+		files = entities.find((e) => e.path === path)?.files ?? []
+	) {
 		activeEntityPath = path;
+		const md = files.find((f) => f.name === 'readme.md') ?? files.find((f) => f.name === 'index.md');
 
 		if (previewMode === 'markdown') {
-			const md = next?.files.find((f) => f.name === 'index.md');
 			if (md) {
 				activeFilePath = md.path;
 				return;
 			}
 		}
 
-		const story = next?.files.find((f) => f.name === 'index.story.svelte');
+		const story = files.find((f) => f.name === 'index.story.svelte');
 		if (story) {
 			activeFilePath = story.path;
 			previewMode = 'story';
 			return;
 		}
+		if (md) {
+			activeFilePath = md.path;
+			previewMode = 'markdown';
+			return;
+		}
 
 		const currentName = activeFilePath.split('/').pop();
-		const same = currentName ? next?.files.find((f) => f.name === currentName) : null;
-		activeFilePath = same?.path ?? next?.files[0]?.path ?? '';
+		const same = currentName ? files.find((f) => f.name === currentName) : null;
+		activeFilePath = same?.path ?? files.find((f) => f.name === 'index.svelte')?.path ??
+			files.find((f) => f.name === 'index.ts')?.path ?? files[0]?.path ?? '';
 		previewMode = 'file';
 	}
 
@@ -384,9 +389,12 @@ export function createDomainPageState(input: DomainPageInput) {
 		activeDomain = entry.domain;
 		activeCluster = entry.cluster;
 		activeJoint = entry.joint;
-		activeEntityPath = entry.entityPath;
-		activeFilePath = entry.filePath;
-		previewMode = 'file';
+		// Resolve the family from the search destination, including a different domain or joint.
+		const next = tree.find((d) => d.name === entry.domain)?.clusters
+			.find((c) => c.name === entry.cluster)?.joints
+			.find((j) => j.name === entry.joint)?.entities
+			.find((e) => e.path === entry.entityPath);
+		handleEntitySelect(entry.entityPath, next?.files ?? []);
 	}
 
 	return {

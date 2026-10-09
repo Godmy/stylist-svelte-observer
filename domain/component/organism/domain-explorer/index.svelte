@@ -31,6 +31,7 @@
 		initialPreviewMode,
 		onSelectionChange,
 		storyDevice = $bindable('desktop'),
+		storySizing = $bindable('viewport'),
 		fullscreen = $bindable(false),
 		deviceViewportVisible = $bindable(false),
 		class: className = ''
@@ -124,6 +125,7 @@
 			</div>
 			<DomainFilePreview
 				{fullscreen}
+				{storySizing}
 				storyPath={s.storyFile?.path}
 				previewMode={s.previewMode}
 				fileContent={s.fileContent}

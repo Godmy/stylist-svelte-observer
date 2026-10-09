@@ -22,6 +22,7 @@
 		onDependencySelect,
 		previewKind = 'text',
 		storyDevice = $bindable('desktop'),
+		storySizing = 'viewport',
 		fullscreen = false,
 		storyPath = '',
 		class: className = ''
@@ -33,14 +34,16 @@
 	);
 	let frame = $state<HTMLIFrameElement>();
 	const viewportWidth = $derived(
-		{ mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
+		storySizing === 'viewport'
+			? { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
+			: null
 	);
 	const frameUrl = $derived(
 		`/preview?story=${encodeURIComponent(storyPath.replace(/^\/?src\/lib\//, '').replace(/^\//, ''))}`
 	);
 	function syncFrame() {
 		frame?.contentWindow?.postMessage(
-			{ type: 'stylist:viewport', device: storyDevice, fullscreen },
+			{ type: 'stylist:viewport', device: storyDevice, fullscreen, sizing: storySizing },
 			window.location.origin
 		);
 	}
@@ -52,6 +55,7 @@
 	}
 	$effect(() => {
 		storyDevice;
+		storySizing;
 		fullscreen;
 		syncFrame();
 	});

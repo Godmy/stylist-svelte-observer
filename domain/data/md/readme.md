@@ -75,3 +75,20 @@ The landing page should introduce that model and point users toward the interact
 - Selecting a domain, cluster, joint or family opens the component playground when a story preview exists.
 - Component stories live next to their component source as `index.story.svelte`.
 - Generated barrel `index.ts` files are maintained by the indexation workflow.
+
+## Story sizing and selection
+
+The sizing selector separates two checks. Viewport mode gives the isolated story iframe
+an actual 375/768/1440px window, so CSS media queries use the selected width. Container
+mode keeps the iframe at the available panel width and constrains the Story surface to
+the selected size with `container-type: inline-size`. Components using container queries
+respond to that surface; media queries continue to use the frame window. Switching mode
+or width preserves the mounted story and its controls. Fullscreen remains independent.
+
+Family selection from the sidebar and global search uses the same policy: keep Markdown
+when it is already selected and the destination has documentation; otherwise prefer a
+story, then documentation, then source. Documentation prefers `readme.md`, with `index.md`
+as a legacy fallback. Source preserves the previous filename when available, otherwise
+prefers `index.svelte`, then `index.ts`. Late content responses cannot overwrite another
+selection. The standalone `/preview?story=...` route is owned by the umbrella application
+and must ship together with the observer and theme implementations.

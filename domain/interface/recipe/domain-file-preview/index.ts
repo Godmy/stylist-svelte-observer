@@ -19,6 +19,7 @@ export interface RecipeDomainFilePreview {
 	onDependencySelect?: (key: string) => void;
 	previewKind?: 'svg' | 'json' | 'text';
 	storyDevice?: DeviceFrameViewport;
+	storySizing?: 'viewport' | 'container';
 	fullscreen?: boolean;
 	storyPath?: string;
 	class?: string;
