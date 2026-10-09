@@ -12,7 +12,7 @@
 		title = 'Stylist Svelte',
 		subtitle = 'Build beautiful Svelte interfaces.',
 		subtitleAccent = 'Faster!',
-		description = 'A Svelte component ecosystem built through orchestrated AI development. Explore 700+ UI components, interactive stories, documentation, and development tools — created and continuously evolved by AI agents working under the SAMO methodology.',
+		description = 'A Svelte component ecosystem built through orchestrated AI development. Explore UI components, interactive stories, documentation, and development tools — created and continuously evolved by AI agents working under the SAMO methodology.',
 		badgeLabel = 'Built with SAMO · Powered by multi-agent development',
 		badgeHref = 'https://www.npmjs.com/package/stylist-svelte',
 		poweredByLabel = 'Developed with multiple AI perspectives',
