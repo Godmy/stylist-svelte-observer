@@ -21,6 +21,7 @@ export {
 	TokenSetting
 } from './molecule';
 export {
+	DomainBuilder,
 	OrbitContractL5,
 	PrismaticOrbitL6,
 	TokenSettings

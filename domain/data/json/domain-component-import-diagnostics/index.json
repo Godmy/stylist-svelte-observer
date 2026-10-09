@@ -153,6 +153,23 @@
       "otherImports": []
     },
     {
+      "path": "development/component/organism/content-editor/index.svelte",
+      "domain": "development",
+      "joint": "organism",
+      "family": "content-editor",
+      "status": "missing-recipe",
+      "expectedRecipe": "RecipeContentEditor",
+      "importCount": 4,
+      "recipeImports": [
+        "$stylist/development/interface/recipe/content-editor-state-props"
+      ],
+      "otherImports": [
+        "svelte/elements",
+        "$stylist/svg/component/atom/icon/index.svelte",
+        "./state.svelte"
+      ]
+    },
+    {
       "path": "dialog/component/atom/breadcrumbs/index.svelte",
       "domain": "dialog",
       "joint": "atom",
@@ -641,6 +658,22 @@
       ]
     },
     {
+      "path": "token/component/organism/domain-builder/index.svelte",
+      "domain": "token",
+      "joint": "organism",
+      "family": "domain-builder",
+      "status": "missing-recipe",
+      "expectedRecipe": "RecipeDomainBuilder",
+      "importCount": 4,
+      "recipeImports": [],
+      "otherImports": [
+        "svelte",
+        "$stylist/token/component/molecule/domain-descriptor-panel/index.svelte",
+        "$stylist/domain/component/organism/domain-sidebar/index.svelte",
+        "$stylist/domain/type/object/domain-component-descriptor"
+      ]
+    },
+    {
       "path": "token/component/organism/orbit-contract-l5/index.svelte",
       "domain": "token",
       "joint": "organism",
@@ -805,10 +838,10 @@
     }
   ],
   "summary": {
-    "total": 57,
+    "total": 59,
     "none": 6,
-    "missingRecipe": 51,
-    "valid": 383,
-    "scanned": 440
+    "missingRecipe": 53,
+    "valid": 404,
+    "scanned": 463
   }
 }

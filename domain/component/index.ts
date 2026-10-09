@@ -24,6 +24,7 @@ export {
 } from './molecule';
 export {
 	DeviceFrame,
+	DomainAiAgent,
 	DomainClusterBalance,
 	DomainComponentImportDiagnostics,
 	DomainDiagnostics,

@@ -4,6 +4,7 @@ export type {
 	RecipeCtaButtons,
 	RecipeDeviceFrame,
 	RecipeDeviceViewport,
+	RecipeDomainAiAgent,
 	RecipeDomainClusterBalance,
 	RecipeDomainComponentImportDiagnostics,
 	RecipeDomainDiagnostics,

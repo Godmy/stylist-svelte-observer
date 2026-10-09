@@ -139,7 +139,8 @@
           "audio-visualizer": "INDEXED_REACTIVE_STORY_COMPONENT"
         },
         "organism": {
-          "audio-player": "INDEXED_REACTIVE_STORY_COMPONENT"
+          "audio-player": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "transcriber": "INDEXED_REACTIVE_STORY_COMPONENT"
         }
       },
       "const": {
@@ -157,7 +158,8 @@
           "audio-player": "INDEXED_INTERFACE",
           "audio-record-button": "INDEXED_INTERFACE",
           "audio-slider": "INDEXED_INTERFACE",
-          "audio-visualizer": "INDEXED_INTERFACE"
+          "audio-visualizer": "INDEXED_INTERFACE",
+          "transcriber": "INDEXED_INTERFACE"
         },
         "slot": {
           "audio-player": "INDEXED_INTERFACE",
@@ -165,6 +167,11 @@
           "audio-slider": "INDEXED_INTERFACE",
           "audio-visualizer": "INDEXED_INTERFACE",
           "transcription-result": "INDEXED_INTERFACE"
+        }
+      },
+      "type": {
+        "alias": {
+          "transcriber-status": "INDEXED_TYPE"
         }
       }
     },
@@ -640,6 +647,116 @@
         }
       }
     },
+    "development": {
+      "class": {
+        "manager": {
+          "code-block": "INDEXED_CLASS",
+          "component-preview": "INDEXED_CLASS",
+          "page-builder": "INDEXED_CLASS"
+        }
+      },
+      "component": {
+        "atom": {
+          "cube-control": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "npm-badge": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "syntax-highlighted-code": "INDEXED_REACTIVE_STORY_COMPONENT"
+        },
+        "molecule": {
+          "code-block": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "code-diff": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "code-editor": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "component-preview": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "documentation-block": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "privacy-settings": "INDEXED_REACTIVE_STORY_COMPONENT"
+        },
+        "organism": {
+          "code-viewer": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "content-editor": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "debug-console": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "development-error-boundary": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "enhanced-export-panel": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "error-boundary": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "generic-code-viewer": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "live-code-section": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "mock-data-selector": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "page-builder": "INDEXED_REACTIVE_STORY_COMPONENT"
+        }
+      },
+      "const": {
+        "array": {
+          "code-language": "INDEXED_CONST",
+          "code-view": "INDEXED_CONST",
+          "content-editor-content-type": "INDEXED_CONST",
+          "debug-console-log-level": "INDEXED_CONST",
+          "software-badge": "INDEXED_CONST"
+        },
+        "map": {
+          "page-builder-icons": "INDEXED_CONST"
+        },
+        "preset": {
+          "code-block": "INDEXED_CONST",
+          "code-editor": "INDEXED_CONST"
+        },
+        "record": {
+          "badge-label": "INDEXED_CONST",
+          "cube-face-numbers-snapshot": "INDEXED_CONST",
+          "cube-face-theme": "INDEXED_CONST",
+          "cube-horizontal-icon": "INDEXED_CONST",
+          "cube-vertical-icon": "INDEXED_CONST",
+          "page-builder-toolbar-items": "INDEXED_CONST"
+        },
+        "value": {
+          "code-with-copy-dispatch": "INDEXED_CONST",
+          "particle-count": "INDEXED_CONST"
+        }
+      },
+      "interface": {
+        "recipe": {
+          "atomic-principles": "INDEXED_INTERFACE",
+          "code-block": "INDEXED_INTERFACE",
+          "code-diff": "INDEXED_INTERFACE",
+          "code-editor": "INDEXED_INTERFACE",
+          "code-viewer": "INDEXED_INTERFACE",
+          "component-preview": "INDEXED_INTERFACE",
+          "content-editor-state-props": "INDEXED_INTERFACE",
+          "cube-control": "INDEXED_INTERFACE",
+          "debug-console": "INDEXED_INTERFACE",
+          "development-error-boundary": "INDEXED_INTERFACE",
+          "documentation-block": "INDEXED_INTERFACE",
+          "enhanced-export-panel": "INDEXED_INTERFACE",
+          "error-boundary": "INDEXED_INTERFACE",
+          "generic-code-viewer": "INDEXED_INTERFACE",
+          "live-code-section": "INDEXED_INTERFACE",
+          "mock-data-selector": "INDEXED_INTERFACE",
+          "npm-badge": "INDEXED_INTERFACE",
+          "page-builder": "INDEXED_INTERFACE",
+          "privacy-settings": "INDEXED_INTERFACE",
+          "syntax-highlighted-code": "INDEXED_INTERFACE"
+        },
+        "slot": {
+          "ai-model": "INDEXED_INTERFACE",
+          "debug-console-log-entry": "INDEXED_INTERFACE",
+          "domain-for-each-options": "INDEXED_INTERFACE",
+          "mock-data-selector-selection": "INDEXED_INTERFACE",
+          "mock-data-selector-style-classes": "INDEXED_INTERFACE",
+          "page-builder-button-attributes": "INDEXED_INTERFACE",
+          "page-builder-element": "INDEXED_INTERFACE",
+          "page-builder-heading-attributes": "INDEXED_INTERFACE",
+          "page-builder-image-attributes": "INDEXED_INTERFACE",
+          "page-builder-text-attributes": "INDEXED_INTERFACE"
+        }
+      },
+      "type": {
+        "alias": {
+          "code-language": "INDEXED_TYPE",
+          "code-view": "INDEXED_TYPE",
+          "component-type": "INDEXED_TYPE",
+          "content-editor-content-type": "INDEXED_TYPE",
+          "debug-console-log-level": "INDEXED_TYPE",
+          "software-badge": "INDEXED_TYPE"
+        }
+      }
+    },
     "dialog": {
       "class": {
         "manager": {
@@ -753,6 +870,7 @@
         },
         "organism": {
           "device-frame": "INDEXED_REACTIVE_STORY_COMPONENT",
+          "domain-ai-agent": "INDEXED_REACTIVE_STORY_COMPONENT",
           "domain-cluster-balance": "INDEXED_STORY_COMPONENT",
           "domain-component-import-diagnostics": "INDEXED_STORY_COMPONENT",
           "domain-diagnostics": "INDEXED_REACTIVE_STORY_COMPONENT",
@@ -822,6 +940,7 @@
           "cta-buttons": "INDEXED_INTERFACE",
           "device-frame": "INDEXED_INTERFACE",
           "device-viewport": "INDEXED_INTERFACE",
+          "domain-ai-agent": "INDEXED_INTERFACE",
           "domain-cluster-balance": "INDEXED_INTERFACE",
           "domain-component-import-diagnostics": "INDEXED_INTERFACE",
           "domain-diagnostics": "INDEXED_INTERFACE",
@@ -1936,16 +2055,26 @@
     "server": {
       "class": {
         "manager": {
+          "ai-chat": "INDEXED_CLASS",
+          "backlog": "INDEXED_CLASS",
           "dashboard": "INDEXED_CLASS",
           "diagnostic": "INDEXED_CLASS",
           "domain": "INDEXED_CLASS",
-          "file": "INDEXED_CLASS"
+          "domain-builder": "INDEXED_CLASS",
+          "domain-content-backlog": "INDEXED_CLASS",
+          "file": "INDEXED_CLASS",
+          "transcription": "INDEXED_CLASS"
         }
       },
       "const": {
         "value": {
+          "backlog-default-json-path": "INDEXED_CONST",
+          "backlog-history-directory-path": "INDEXED_CONST",
+          "backlog-jsonl-directory-path": "INDEXED_CONST",
+          "builder-layout-lib-path": "INDEXED_CONST",
           "content-preview-max-file-size": "INDEXED_CONST",
           "error-log-file": "INDEXED_CONST",
+          "issues-jsonl-path": "INDEXED_CONST",
           "lib-directory-path": "INDEXED_CONST"
         }
       },
@@ -1958,13 +2087,17 @@
       "type": {
         "object": {
           "error-log": "INDEXED_TYPE"
+        },
+        "struct": {
+          "backlog-document": "INDEXED_TYPE",
+          "issue-message": "INDEXED_TYPE"
         }
       }
     },
     "svg": {
       "component": {
         "atom": {
-          "flag": "INDEXED_REACTIVE_COMPONENT",
+          "flag": "INDEXED_REACTIVE_STORY_COMPONENT",
           "icon": "INDEXED_REACTIVE_STORY_COMPONENT",
           "svg": "INDEXED_REACTIVE_STORY_COMPONENT",
           "svg-circle": "INDEXED_STORY_COMPONENT",
@@ -2578,6 +2711,7 @@
           "tag": "INDEX_SVG",
           "tag-input": "INDEX_SVG",
           "tax-calculator": "INDEX_SVG",
+          "tea-commerce": "INDEX_SVG",
           "team-avatar-stack": "INDEX_SVG",
           "team-member-card": "INDEX_SVG",
           "template": "INDEX_SVG",
@@ -3010,6 +3144,7 @@
           "token-setting": "INDEXED_STORY_COMPONENT"
         },
         "organism": {
+          "domain-builder": "INDEXED_STORY_COMPONENT",
           "orbit-contract-l5": "INDEXED_STORY_COMPONENT",
           "prismatic-orbit-l6": "INDEXED_STORY_COMPONENT",
           "token-settings": "INDEXED_REACTIVE_STORY_COMPONENT"
@@ -3046,6 +3181,11 @@
           "theme": "INDEXED_CONST",
           "token-setting": "INDEXED_CONST",
           "typography": "INDEXED_CONST"
+        }
+      },
+      "data": {
+        "json": {
+          "domain-builder": "INDEX_JSON"
         }
       },
       "function": {
@@ -3236,6 +3376,7 @@
         "organism": {
           "minimap": "INDEXED_REACTIVE_STORY_COMPONENT",
           "stylist-graph-workspace": "INDEXED_STORY_COMPONENT",
+          "workspace": "INDEXED_REACTIVE_STORY_COMPONENT",
           "workspace-node": "INDEXED_REACTIVE_STORY_COMPONENT",
           "workspace-palette": "INDEXED_REACTIVE_STORY_COMPONENT"
         }

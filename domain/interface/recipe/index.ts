@@ -3,6 +3,7 @@ export type { RecipeClusterToolbar } from './cluster-toolbar';
 export type { RecipeCtaButtons } from './cta-buttons';
 export type { RecipeDeviceFrame } from './device-frame';
 export type { RecipeDeviceViewport } from './device-viewport';
+export type { RecipeDomainAiAgent } from './domain-ai-agent';
 export type { RecipeDomainClusterBalance } from './domain-cluster-balance';
 export type { RecipeDomainComponentImportDiagnostics } from './domain-component-import-diagnostics';
 export type { RecipeDomainDiagnostics } from './domain-diagnostics';

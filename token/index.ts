@@ -3,6 +3,7 @@ export {
 	CardClose,
 	CardOpen,
 	CardShell,
+	DomainBuilder,
 	DomainDescriptorPanel,
 	Orbit,
 	OrbitBackground,
