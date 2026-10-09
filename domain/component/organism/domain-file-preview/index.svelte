@@ -22,7 +22,6 @@
 		onDependencySelect,
 		previewKind = 'text',
 		storyDevice = $bindable('desktop'),
-		storySizing = 'viewport',
 		fullscreen = false,
 		storyPath = '',
 		class: className = ''
@@ -30,20 +29,19 @@
 
 	ManagerStoryViewportContext.set(
 		() => storyDevice,
-		() => fullscreen
+		() => fullscreen,
+		() => true
 	);
 	let frame = $state<HTMLIFrameElement>();
 	const viewportWidth = $derived(
-		storySizing === 'viewport'
-			? { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
-			: null
+		fullscreen ? null : { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
 	);
 	const frameUrl = $derived(
 		`/preview?story=${encodeURIComponent(storyPath.replace(/^\/?src\/lib\//, '').replace(/^\//, ''))}`
 	);
 	function syncFrame() {
 		frame?.contentWindow?.postMessage(
-			{ type: 'stylist:viewport', device: storyDevice, fullscreen, sizing: storySizing },
+			{ type: 'stylist:viewport', device: storyDevice, fullscreen },
 			window.location.origin
 		);
 	}
@@ -55,7 +53,6 @@
 	}
 	$effect(() => {
 		storyDevice;
-		storySizing;
 		fullscreen;
 		syncFrame();
 	});
@@ -180,7 +177,8 @@
 	}
 
 	.c-domain-file-preview--story {
-		overflow: visible;
+		min-width: 0;
+		overflow: hidden;
 	}
 
 	.svg-preview {
@@ -198,32 +196,35 @@
 	}
 
 	.story-preview-shell {
+		box-sizing: border-box;
+		height: 100%;
+		min-height: 0;
 		/* Previewed stories can use any z-index for their own internal layering
 		   (overlays, panels, dropdowns). Without a stacking context boundary here,
 		   those z-indexes compete directly with the shell's own fixed chrome
 		   (e.g. the top-right DomainMenu, z-index: 20) and can paint over it. */
 		position: relative;
 		isolation: isolate;
-		overflow: visible;
+		overflow: hidden;
 	}
 
 	.story-frame-scroll {
 		width: 100%;
-		overflow: auto;
+		height: 100%;
+		min-height: 0;
+		overflow: hidden;
 	}
 	.story-frame-scroll iframe {
 		display: block;
 		flex-shrink: 0;
 		border: 0;
 		margin-inline: auto;
-		height: max(700px, calc(100dvh - 150px));
+		max-width: 100%;
+		height: 100%;
 		background: var(--color-background-primary);
 	}
 	.fullscreen .story-preview-shell {
 		padding: 0;
-	}
-	.fullscreen .story-frame-scroll iframe {
-		height: 100dvh;
 	}
 
 	.svg-art {

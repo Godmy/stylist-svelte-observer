@@ -78,12 +78,11 @@ The landing page should introduce that model and point users toward the interact
 
 ## Story sizing and selection
 
-The sizing selector separates two checks. Viewport mode gives the isolated story iframe
-an actual 375/768/1440px window, so CSS media queries use the selected width. Container
-mode keeps the iframe at the available panel width and constrains the Story surface to
-the selected size with `container-type: inline-size`. Components using container queries
-respond to that surface; media queries continue to use the frame window. Switching mode
-or width preserves the mounted story and its controls. Fullscreen remains independent.
+Story previews use Viewport sizing: the isolated iframe receives an actual
+375/768/1440px window, so CSS media queries use the selected width. Switching
+width preserves the mounted story and its controls. Fullscreen remains independent.
+The domain screen stays within the browser window; the explorer and preview scroll
+inside their own panels. Landing and diagnostics retain normal page scrolling.
 
 Family selection from the sidebar and global search uses the same policy: keep Markdown
 when it is already selected and the destination has documentation; otherwise prefer a

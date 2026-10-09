@@ -31,7 +31,6 @@
 		initialPreviewMode,
 		onSelectionChange,
 		storyDevice = $bindable('desktop'),
-		storySizing = $bindable('viewport'),
 		fullscreen = $bindable(false),
 		deviceViewportVisible = $bindable(false),
 		class: className = ''
@@ -125,7 +124,6 @@
 			</div>
 			<DomainFilePreview
 				{fullscreen}
-				{storySizing}
 				storyPath={s.storyFile?.path}
 				previewMode={s.previewMode}
 				fileContent={s.fileContent}
@@ -153,19 +151,27 @@
 		display: grid;
 		grid-template-columns: 281px minmax(0, 1fr);
 		transition: grid-template-columns 180ms ease;
-		min-height: 100vh;
+		height: 100%;
+		min-height: 0;
+		overflow: hidden;
 		background: var(--color-background-primary);
 		color: var(--color-text-primary);
 	}
 
 	.explorer-rail {
+		box-sizing: border-box;
+		min-height: 0;
+		border-right: 1px solid var(--color-border-primary, #cbd5e1);
 		min-width: 0;
 		overflow: hidden;
 		transition: transform 180ms ease;
 	}
 	.explorer-rail :global(.c-domain-sidebar) {
 		width: 281px;
-		min-height: 100%;
+		box-sizing: border-box;
+		height: 100%;
+		min-height: 0;
+		border-right: 0;
 	}
 	.viewer-chrome {
 		min-width: 0;
@@ -194,16 +200,15 @@
 	.content-panel {
 		display: grid;
 		min-width: 0;
-		overflow-x: clip;
-		overflow-y: visible;
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.viewer {
 		display: grid;
-		grid-template-rows: auto 1fr;
+		grid-template-rows: auto minmax(0, 1fr);
 		min-height: 0;
-		overflow-x: clip;
-		overflow-y: visible;
+		overflow: hidden;
 	}
 
 	.taxonomy-row {
@@ -236,6 +241,10 @@
 		}
 		.c-domain-explorer {
 			grid-template-columns: 1fr;
+			grid-template-rows: minmax(0, 35%) minmax(0, 1fr);
+		}
+		.c-domain-explorer.fullscreen {
+			grid-template-rows: minmax(0, 1fr);
 		}
 	}
 </style>

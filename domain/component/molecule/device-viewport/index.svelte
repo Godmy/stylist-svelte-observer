@@ -5,8 +5,6 @@
 
 	let {
 		value = 'desktop',
-		mode = 'viewport',
-		onModeChange,
 		fullscreen = false,
 		onFullscreenChange,
 		onChange,
@@ -22,17 +20,6 @@
 </script>
 
 <nav class="c-device-viewport {className}" aria-label="Preview viewport">
-	<label class="sizing-mode">
-		<span>Size</span>
-		<select
-			aria-label="Preview sizing mode"
-			value={mode}
-			onchange={(event) => onModeChange?.(event.currentTarget.value as 'viewport' | 'container')}
-		>
-			<option value="viewport">Viewport</option>
-			<option value="container">Container</option>
-		</select>
-	</label>
 	{#each DEVICE_FRAME_VIEWPORT.filter((device) => device !== 'fullscreen') as device (device)}
 		<button
 			type="button"
@@ -136,19 +123,6 @@
 </nav>
 
 <style>
-	.sizing-mode {
-		display: grid;
-		gap: 0.2rem;
-		font-size: 12px;
-		color: var(--color-text-secondary);
-	}
-	.sizing-mode select {
-		padding: 0.35rem;
-		border: 1px solid var(--color-border-primary);
-		border-radius: 8px;
-		background: var(--color-background-primary);
-		color: var(--color-text-primary);
-	}
 	.c-device-viewport {
 		display: inline-flex;
 		align-items: center;

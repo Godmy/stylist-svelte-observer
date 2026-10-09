@@ -21,7 +21,6 @@
 
 	const screenState = createDomainPlaygroundState(initialScreen);
 	let storyDevice = $state<DeviceFrameViewport>('desktop');
-	let storySizing = $state<'viewport' | 'container'>('viewport');
 	let fullscreen = $state(false);
 	let deviceViewportVisible = $state(false);
 	const storyModuleCount = $derived(countDomainStories(tree));
@@ -42,6 +41,7 @@
 
 <div
 	class="c-domain-playground {className}"
+	class:c-domain-playground--domain={screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
 	class:fullscreen={fullscreen && screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
 >
 	{#if screenState.currentScreen === DOMAIN_SCREEN.DOMAIN}
@@ -54,7 +54,6 @@
 				{initialJoint}
 				{initialPreviewMode}
 				bind:storyDevice
-				bind:storySizing
 				bind:fullscreen
 				bind:deviceViewportVisible
 			/>
@@ -78,8 +77,6 @@
 		{#if screenState.currentScreen === DOMAIN_SCREEN.DOMAIN && deviceViewportVisible}
 			<DeviceViewport
 				value={storyDevice}
-				mode={storySizing}
-				onModeChange={(next) => (storySizing = next)}
 				{fullscreen}
 				onChange={(next) => (storyDevice = next)}
 				onFullscreenChange={(next) => (fullscreen = next)}
@@ -115,6 +112,19 @@
 		min-height: 100vh;
 	}
 
+	:global(html:has(.c-domain-playground--domain)),
+	:global(body:has(.c-domain-playground--domain)) {
+		overflow: hidden;
+		scrollbar-gutter: auto;
+	}
+
+	.c-domain-playground--domain {
+		box-sizing: border-box;
+		height: 100dvh;
+		min-height: 0;
+		overflow: hidden;
+	}
+
 	.c-domain-playground.fullscreen {
 		padding-top: 0;
 	}
@@ -124,7 +134,7 @@
 		inset: 0.75rem 0.75rem auto auto;
 		z-index: 1000;
 		display: flex;
-		align-items: flex-start;
+		align-items: stretch;
 		justify-content: flex-end;
 		gap: 0.55rem;
 		width: max-content;
