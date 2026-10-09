@@ -22,6 +22,7 @@
 		onDependencySelect,
 		previewKind = 'text',
 		storyDevice = $bindable('desktop'),
+		storyWidth,
 		fullscreen = false,
 		storyPath = '',
 		class: className = ''
@@ -33,9 +34,24 @@
 		() => true
 	);
 	let frame = $state<HTMLIFrameElement>();
+	let frameHost = $state<HTMLDivElement>();
+	let availableWidth = $state(0);
+	let availableHeight = $state(0);
 	const viewportWidth = $derived(
-		fullscreen ? null : { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
+		storyWidth ?? { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[storyDevice]
 	);
+	const frameScale = $derived(
+		viewportWidth && availableWidth ? Math.min(1, availableWidth / viewportWidth) : 1
+	);
+	$effect(() => {
+		if (!frameHost) return;
+		const observer = new ResizeObserver(([entry]) => {
+			availableWidth = entry.contentRect.width;
+			availableHeight = entry.contentRect.height;
+		});
+		observer.observe(frameHost);
+		return () => observer.disconnect();
+	});
 	const frameUrl = $derived(
 		`/preview?story=${encodeURIComponent(storyPath.replace(/^\/?src\/lib\//, '').replace(/^\//, ''))}`
 	);
@@ -91,13 +107,15 @@
 		{@const StoryPreviewComponent = storyPreviewComponent}
 		<div class="story-preview-shell">
 			{#if storyPath}
-				<div class="story-frame-scroll">
+				<div class="story-frame-scroll" bind:this={frameHost}>
 					<iframe
 						bind:this={frame}
 						src={frameUrl}
 						title="Component story preview"
 						onload={syncFrame}
 						style:width={viewportWidth ? `${viewportWidth}px` : '100%'}
+						style:height={availableHeight ? `${availableHeight / frameScale}px` : '100%'}
+						style:transform={`translateX(-50%) scale(${frameScale})`}
 					></iframe>
 				</div>
 			{:else}
@@ -209,6 +227,7 @@
 	}
 
 	.story-frame-scroll {
+		position: relative;
 		width: 100%;
 		height: 100%;
 		min-height: 0;
@@ -218,8 +237,10 @@
 		display: block;
 		flex-shrink: 0;
 		border: 0;
-		margin-inline: auto;
-		max-width: 100%;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform-origin: top center;
 		height: 100%;
 		background: var(--color-background-primary);
 	}

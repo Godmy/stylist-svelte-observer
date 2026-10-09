@@ -21,6 +21,12 @@
 
 	const screenState = createDomainPlaygroundState(initialScreen);
 	let storyDevice = $state<DeviceFrameViewport>('desktop');
+	let storyWidths = $state<Record<DeviceFrameViewport, number | null>>({
+		mobile: 375,
+		tablet: 768,
+		desktop: 1440,
+		fullscreen: null
+	});
 	let fullscreen = $state(false);
 	let deviceViewportVisible = $state(false);
 	const storyModuleCount = $derived(countDomainStories(tree));
@@ -53,6 +59,7 @@
 				{initialCluster}
 				{initialJoint}
 				{initialPreviewMode}
+				storyWidth={storyWidths[storyDevice]}
 				bind:storyDevice
 				bind:fullscreen
 				bind:deviceViewportVisible
@@ -77,6 +84,9 @@
 		{#if screenState.currentScreen === DOMAIN_SCREEN.DOMAIN && deviceViewportVisible}
 			<DeviceViewport
 				value={storyDevice}
+				width={storyWidths[storyDevice]}
+				widths={storyWidths}
+				onWidthChange={(width) => (storyWidths[storyDevice] = width)}
 				{fullscreen}
 				onChange={(next) => (storyDevice = next)}
 				onFullscreenChange={(next) => (fullscreen = next)}

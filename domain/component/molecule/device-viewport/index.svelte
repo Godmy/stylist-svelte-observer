@@ -5,6 +5,9 @@
 
 	let {
 		value = 'desktop',
+		width,
+		widths = {},
+		onWidthChange,
 		fullscreen = false,
 		onFullscreenChange,
 		onChange,
@@ -12,11 +15,20 @@
 	}: RecipeDeviceViewport = $props();
 
 	const LABEL: Record<DeviceFrameViewport, string> = {
-		mobile: 'Mobile · 375px',
-		tablet: 'Tablet · 768px',
-		desktop: 'Desktop · 1440px',
+		mobile: 'Mobile',
+		tablet: 'Tablet',
+		desktop: 'Desktop',
 		fullscreen: 'Fullscreen'
 	};
+	const WIDTHS: Record<DeviceFrameViewport, number[]> = {
+		mobile: [320, 360, 375, 390, 414, 430],
+		tablet: [600, 768, 820, 834, 1024],
+		desktop: [1280, 1366, 1440, 1536, 1920, 2560],
+		fullscreen: []
+	};
+	const selectedWidth = $derived(
+		width ?? widths[value] ?? { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[value]
+	);
 </script>
 
 <nav class="c-device-viewport {className}" aria-label="Preview viewport">
@@ -28,7 +40,7 @@
 			onclick={() => onChange?.(device)}
 			aria-pressed={value === device}
 			aria-label={LABEL[device]}
-			title={LABEL[device]}
+			data-hint={`${LABEL[device]} · ${device === value ? selectedWidth : (widths[device] ?? { mobile: 375, tablet: 768, desktop: 1440, fullscreen: null }[device])}px`}
 		>
 			{#if device === 'mobile'}
 				<svg
@@ -96,7 +108,30 @@
 			{/if}
 		</button>
 	{/each}
-	<span class="viewport-label">{LABEL[value]}</span>
+	{#if value !== 'fullscreen'}
+		<label class="viewport-size">
+			<span class="viewport-select-wrap">
+				<select
+					aria-label={`${LABEL[value]} viewport width`}
+					value={selectedWidth}
+					onchange={(event) => onWidthChange?.(Number(event.currentTarget.value))}
+				>
+					{#each WIDTHS[value] as preset (preset)}
+						<option value={preset}>{preset} px</option>
+					{/each}
+				</select>
+				<svg
+					width="12"
+					height="12"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg
+				>
+			</span>
+		</label>
+	{/if}
 	<button
 		type="button"
 		class="viewport-button fullscreen-button"
@@ -141,9 +176,43 @@
 		backdrop-filter: blur(14px);
 	}
 
-	.viewport-label {
+	.viewport-size {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding-left: 0.6rem;
+		border-left: 1px solid var(--color-border-primary);
+	}
+	.viewport-select-wrap {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+	.viewport-select-wrap select {
+		appearance: none;
+		height: 2.3rem;
+		width: 6.7rem;
+		padding: 0 1.65rem 0 0.7rem;
+		border: 1px solid var(--color-border-primary);
+		border-radius: 10px;
+		background: var(--color-background-primary);
+		color: var(--color-text-primary);
+		font: inherit;
 		font-size: 12px;
-		white-space: nowrap;
+		font-variant-numeric: tabular-nums;
+		cursor: pointer;
+	}
+	.viewport-select-wrap select:hover {
+		border-color: var(--color-primary-500);
+	}
+	.viewport-select-wrap select:focus-visible {
+		outline: 2px solid var(--color-primary-500);
+		outline-offset: 2px;
+	}
+	.viewport-select-wrap svg {
+		position: absolute;
+		right: 0.6rem;
+		pointer-events: none;
 		color: var(--color-text-secondary);
 	}
 	.fullscreen-button {
@@ -213,8 +282,12 @@
 
 	@media (max-width: 840px) {
 		.c-device-viewport {
-			flex-wrap: wrap;
+			flex-wrap: nowrap;
 			justify-content: flex-end;
+		}
+		.viewport-size {
+			gap: 0.35rem;
+			padding-left: 0.35rem;
 		}
 	}
 </style>

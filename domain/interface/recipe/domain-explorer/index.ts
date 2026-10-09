@@ -15,6 +15,7 @@ export interface RecipeDomainExplorer {
 		files: { name: string; path: string }[];
 	}) => void;
 	storyDevice?: DeviceFrameViewport;
+	storyWidth?: number | null;
 	fullscreen?: boolean;
 	deviceViewportVisible?: boolean;
 	class?: string;

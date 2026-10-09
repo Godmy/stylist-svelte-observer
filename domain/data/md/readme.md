@@ -79,8 +79,11 @@ The landing page should introduce that model and point users toward the interact
 ## Story sizing and selection
 
 Story previews use Viewport sizing: the isolated iframe receives an actual
-375/768/1440px window, so CSS media queries use the selected width. Switching
-width preserves the mounted story and its controls. Fullscreen remains independent.
+selected-width window, so CSS media queries use the selected width. Mobile, tablet
+and desktop each offer multiple width presets and remember their last selection.
+Large viewports scale visually to fit the canvas while retaining their actual CSS
+width. Switching width preserves the mounted story and its controls. Fullscreen
+keeps the selected width; content scrolling stays inside the viewport.
 The domain screen stays within the browser window; the explorer and preview scroll
 inside their own panels. Landing and diagnostics retain normal page scrolling.
 

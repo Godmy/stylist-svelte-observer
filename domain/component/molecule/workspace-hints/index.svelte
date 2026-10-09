@@ -70,12 +70,15 @@
 			}
 		};
 		convert();
-		const observer = new MutationObserver(convert);
+		const observer = new MutationObserver(() => {
+			convert();
+			if (anchor) hint = anchor.dataset.hint || anchor.getAttribute('aria-label') || '';
+		});
 		observer.observe(document.body, {
 			childList: true,
 			subtree: true,
 			attributes: true,
-			attributeFilter: ['title']
+			attributeFilter: ['title', 'data-hint', 'aria-label']
 		});
 		const over = (event: PointerEvent) => {
 			if (event.pointerType !== 'touch') show(event.target);
