@@ -99,45 +99,32 @@
 	}
 
 	.fg-card {
+		--feature-accent: var(--color-primary-500);
 		border-radius: 24px;
-		border: 2px solid;
+		border: 1px solid color-mix(in srgb, var(--color-border-primary) 82%, var(--feature-accent) 18%);
 		padding: 1.75rem;
+		background: linear-gradient(
+			145deg,
+			color-mix(in srgb, var(--color-background-secondary) 94%, var(--feature-accent) 6%),
+			var(--color-background-secondary)
+		);
+		box-shadow: 0 8px 24px color-mix(in srgb, var(--color-text-primary) 5%, transparent);
 	}
 
 	.fg-palette-orange {
-		background: linear-gradient(
-			to bottom right,
-			color-mix(in srgb, #fff7ed 55%, var(--color-background-primary) 45%),
-			color-mix(in srgb, #fef2f2 55%, var(--color-background-primary) 45%)
-		);
-		border-color: color-mix(in srgb, #fed7aa 55%, var(--color-border-primary) 45%);
+		--feature-accent: #ea580c;
 	}
 
 	.fg-palette-sky {
-		background: linear-gradient(
-			to bottom right,
-			color-mix(in srgb, #f0f9ff 55%, var(--color-background-primary) 45%),
-			color-mix(in srgb, #ecfeff 55%, var(--color-background-primary) 45%)
-		);
-		border-color: color-mix(in srgb, #bae6fd 55%, var(--color-border-primary) 45%);
+		--feature-accent: #0284c7;
 	}
 
 	.fg-palette-violet {
-		background: linear-gradient(
-			to bottom right,
-			color-mix(in srgb, #f5f3ff 55%, var(--color-background-primary) 45%),
-			color-mix(in srgb, #fdf4ff 55%, var(--color-background-primary) 45%)
-		);
-		border-color: color-mix(in srgb, #ddd6fe 55%, var(--color-border-primary) 45%);
+		--feature-accent: #7c3aed;
 	}
 
 	.fg-palette-emerald {
-		background: linear-gradient(
-			to bottom right,
-			color-mix(in srgb, #ecfdf5 55%, var(--color-background-primary) 45%),
-			color-mix(in srgb, #f0fdf4 55%, var(--color-background-primary) 45%)
-		);
-		border-color: color-mix(in srgb, #a7f3d0 55%, var(--color-border-primary) 45%);
+		--feature-accent: #059669;
 	}
 
 	.fg-icon-box {
