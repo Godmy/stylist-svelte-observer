@@ -887,18 +887,18 @@
     },
     {
       "name": "domain",
-      "fileCount": 227,
+      "fileCount": 315,
       "components": {
         "atoms": 4,
-        "molecules": 15,
-        "organisms": 14,
+        "molecules": 30,
+        "organisms": 15,
         "templates": 0,
-        "pages": 2
+        "pages": 3
       },
       "clusters": [
         {
           "name": "component",
-          "fileCount": 112,
+          "fileCount": 163,
           "joints": [
             {
               "name": "atom",
@@ -907,18 +907,18 @@
             },
             {
               "name": "molecule",
-              "entityCount": 15,
-              "fileCount": 42
+              "entityCount": 30,
+              "fileCount": 87
             },
             {
               "name": "organism",
-              "entityCount": 14,
-              "fileCount": 48
+              "entityCount": 15,
+              "fileCount": 51
             },
             {
               "name": "page",
-              "entityCount": 2,
-              "fileCount": 8
+              "entityCount": 3,
+              "fileCount": 11
             }
           ]
         },
@@ -997,12 +997,12 @@
         },
         {
           "name": "interface",
-          "fileCount": 38,
+          "fileCount": 55,
           "joints": [
             {
               "name": "recipe",
-              "entityCount": 34,
-              "fileCount": 35
+              "entityCount": 51,
+              "fileCount": 52
             },
             {
               "name": "slot",
@@ -1013,7 +1013,7 @@
         },
         {
           "name": "type",
-          "fileCount": 34,
+          "fileCount": 54,
           "joints": [
             {
               "name": "alias",
@@ -1022,8 +1022,8 @@
             },
             {
               "name": "object",
-              "entityCount": 25,
-              "fileCount": 26
+              "entityCount": 45,
+              "fileCount": 46
             }
           ]
         }
@@ -3096,11 +3096,11 @@
   ],
   "totals": {
     "domains": 35,
-    "files": 4229,
+    "files": 4317,
     "atoms": 183,
-    "molecules": 151,
-    "organisms": 126,
+    "molecules": 166,
+    "organisms": 127,
     "templates": 0,
-    "pages": 3
+    "pages": 4
   }
 }

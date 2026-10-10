@@ -75,7 +75,7 @@ export const PRESET_FILE = {
 			'geo.svg',
 			'information.svg',
 			'interaction.svg',
-			'observer.svg',
+			'sandbox.svg',
 			'spanish.svg',
 			'travel.svg',
 			'wbd.svg'
