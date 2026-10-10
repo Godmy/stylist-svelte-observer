@@ -56,7 +56,7 @@
 				snippets: [
 					{
 						file: 'package.json',
-						code: '{\n  "dependencies": {\n    "stylist-svelte": "portal:../stylist-svelte",\n    "stylist-svelte-travel": "portal:../stylist-svelte/modules/business/travel"\n  }\n}'
+						code: '{\n  "dependencies": {\n    "stylist-svelte": "portal:../stylist-svelte",\n    "stylist-svelte-travel": "portal:../<private-package-path>"\n  }\n}'
 					},
 					{
 						file: 'vite.config.ts',
@@ -68,6 +68,7 @@
 					}
 				],
 				notes: [
+					'Replace <private-package-path> with stylist-svelte/ followed by the travel.path value from modules.json. The Vite example resolves the same registry value automatically.',
 					'The dependency is one-way: the private package may import stylist-svelte, the public library must never import the private package.',
 					'Moved a module? Refresh the site’s Yarn installation so the portal points to the new path.'
 				]
